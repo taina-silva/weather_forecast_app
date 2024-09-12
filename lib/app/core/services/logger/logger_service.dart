@@ -4,8 +4,13 @@ import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 
-class LoggerService {
-  LoggerService() {
+abstract class LoggerService {
+  void log(String message);
+  void logError(exception, {StackTrace? stackTrace});
+}
+
+class LoggerServiceImpl {
+  LoggerServiceImpl() {
     Isolate.current.addErrorListener(isolateErrorListener);
   }
 
@@ -14,7 +19,7 @@ class LoggerService {
       final List<dynamic> errorAndStacktrace = pair;
       final exception = errorAndStacktrace.first;
       final stackTrace = errorAndStacktrace[1];
-      logError(exception, stackTrace);
+      logError(exception, stackTrace: stackTrace);
     }).sendPort;
   }
 
@@ -24,7 +29,7 @@ class LoggerService {
     }
   }
 
-  void logError(exception, StackTrace? stackTrace) {
+  void logError(exception, {StackTrace? stackTrace}) {
     if (!kReleaseMode) {
       dev.log('Exception: ${exception.toString()}');
       dev.log('StackTrace: ${stackTrace.toString()}');

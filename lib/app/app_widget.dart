@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:weather_forecast_app/app/core/services/logger_service.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 
 class AppWidget extends StatefulWidget {
@@ -33,7 +33,7 @@ class _AppWidgetState extends State<AppWidget> with WidgetsBindingObserver {
   }
 
   void navigationListener() {
-    Modular.get<LoggerService>().log('[NAV]: ${Modular.to.path}');
+    // Modular.get<LoggerService>().log('[NAV]: ${Modular.to.path}');
   }
 
   @override
@@ -56,15 +56,14 @@ class _AppWidgetState extends State<AppWidget> with WidgetsBindingObserver {
         ),
         // ignore: deprecated_member_use
         useInheritedMediaQuery: true,
-        // localizationsDelegates: const [
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate,
-        //   GlobalCupertinoLocalizations.delegate,
-        // ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         supportedLocales: const [Locale('pt', 'BR')],
         builder: DevicePreview.appBuilder,
-        routeInformationParser: Modular.routeInformationParser,
-        routerDelegate: Modular.routerDelegate,
+        routerConfig: Modular.routerConfig,
       ),
     );
   }

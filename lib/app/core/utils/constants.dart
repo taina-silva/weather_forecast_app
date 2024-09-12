@@ -60,4 +60,5 @@ abstract class Space {
 abstract class Assets {
   static const String logo = 'assets/logo/logo.png';
   static const String icons = 'assets/icons';
+  static const String jsons = 'assets/jsons';
 }

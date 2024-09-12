@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:weather_forecast_app/app/app_module.dart';
 import 'package:weather_forecast_app/app/core/routes/app_routes.dart';
 import 'package:weather_forecast_app/app/modules/entry/presentation/pages/entry_page.dart';
 import 'package:weather_forecast_app/app/modules/entry/presentation/stores/entry_store.dart';
@@ -7,8 +8,11 @@ import 'package:weather_forecast_app/app/modules/splash/spash_module.dart';
 
 class EntryModule extends Module {
   @override
+  List<Module> get imports => [AppModule()];
+
+  @override
   void binds(i) {
-    i.addLazySingleton<EntryStore>((i) => EntryStore());
+    i.addLazySingleton<EntryStore>(EntryStore.new);
   }
 
   @override

@@ -6,8 +6,6 @@ part 'splash_store.g.dart';
 class SplashStore = SplashStoreBase with _$SplashStore;
 
 abstract class SplashStoreBase with Store {
-  SplashStoreBase();
-
   @readonly
   SplashState _state = InitialState();
 
