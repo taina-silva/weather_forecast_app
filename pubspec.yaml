@@ -1,0 +1,80 @@
+name: weather_forecast_app
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+scripts:
+  get: fvm flutter pub get
+
+  clean:
+    $script: fvm flutter clean
+    $after: fvm flutter pub get
+
+  gen:
+    $script: dart run build_runner watch --delete-conflicting-outputs
+
+  clean-gen:
+    $before: fvm flutter clean
+    $script: dart run build_runner watch --delete-conflicting-outputs
+
+  test:
+    $before: fvm flutter pub run full_coverage
+    $script: fvm flutter test --coverage
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  equatable: ^2.0.0
+  flutter_modular: ^6.3.4
+  mobx: ^2.3.3+2
+  mobx_codegen: ^2.6.1
+  isar: ^3.1.0+1
+  device_preview: ^1.2.0
+  flutter_launcher_icons: ^0.13.1
+  fpdart: ^1.1.0
+  flutter_mobx: ^2.2.1+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.12
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/app_icon/
+    - assets/logo/
+    - assets/icons/
+
+  fonts:
+    - family: K2D
+      fonts:
+        - asset: assets/fonts/K2D-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/K2D-Light.ttf
+          weight: 300
+        - asset: assets/fonts/K2D-Medium.ttf
+          weight: 400
+        - asset: assets/fonts/K2D-Regular.ttf
+          weight: 500
+        - asset: assets/fonts/K2D-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/K2D-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/K2D-ExtraBold.ttf
+          weight: 800
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon/app_icon.png"
