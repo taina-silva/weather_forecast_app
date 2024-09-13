@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 
 class AppWidget extends StatefulWidget {
@@ -27,13 +28,13 @@ class _AppWidgetState extends State<AppWidget> with WidgetsBindingObserver {
 
   @override
   Future<void> dispose() async {
-    Modular.to.removeListener(navigationListener);
+    // Modular.to.removeListener(navigationListener);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   void navigationListener() {
-    // Modular.get<LoggerService>().log('[NAV]: ${Modular.to.path}');
+    Modular.get<LoggerService>().log('[NAV]: ${Modular.to.path}');
   }
 
   @override
@@ -54,8 +55,6 @@ class _AppWidgetState extends State<AppWidget> with WidgetsBindingObserver {
           useMaterial3: false,
           fontFamily: FFamily.k2d,
         ),
-        // ignore: deprecated_member_use
-        useInheritedMediaQuery: true,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

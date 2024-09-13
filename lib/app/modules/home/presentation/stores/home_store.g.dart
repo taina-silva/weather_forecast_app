@@ -41,38 +41,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
-  late final _$searchCountryAtom =
-      Atom(name: 'HomeStoreBase.searchCountry', context: context);
-
-  @override
-  String get searchCountry {
-    _$searchCountryAtom.reportRead();
-    return super.searchCountry;
-  }
-
-  @override
-  set searchCountry(String value) {
-    _$searchCountryAtom.reportWrite(value, super.searchCountry, () {
-      super.searchCountry = value;
-    });
-  }
-
-  late final _$searchCityAtom =
-      Atom(name: 'HomeStoreBase.searchCity', context: context);
-
-  @override
-  String get searchCity {
-    _$searchCityAtom.reportRead();
-    return super.searchCity;
-  }
-
-  @override
-  set searchCity(String value) {
-    _$searchCityAtom.reportWrite(value, super.searchCity, () {
-      super.searchCity = value;
-    });
-  }
-
   late final _$selectedCountryAtom =
       Atom(name: 'HomeStoreBase.selectedCountry', context: context);
 
@@ -105,15 +73,47 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$searchCountryAtom =
+      Atom(name: 'HomeStoreBase.searchCountry', context: context);
+
+  @override
+  String get searchCountry {
+    _$searchCountryAtom.reportRead();
+    return super.searchCountry;
+  }
+
+  @override
+  set searchCountry(String value) {
+    _$searchCountryAtom.reportWrite(value, super.searchCountry, () {
+      super.searchCountry = value;
+    });
+  }
+
+  late final _$searchCityAtom =
+      Atom(name: 'HomeStoreBase.searchCity', context: context);
+
+  @override
+  String get searchCity {
+    _$searchCityAtom.reportRead();
+    return super.searchCity;
+  }
+
+  @override
+  set searchCity(String value) {
+    _$searchCityAtom.reportWrite(value, super.searchCity, () {
+      super.searchCity = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 countries: ${countries},
 cities: ${cities},
-searchCountry: ${searchCountry},
-searchCity: ${searchCity},
 selectedCountry: ${selectedCountry},
-selectedCity: ${selectedCity}
+selectedCity: ${selectedCity},
+searchCountry: ${searchCountry},
+searchCity: ${searchCity}
     ''';
   }
 }

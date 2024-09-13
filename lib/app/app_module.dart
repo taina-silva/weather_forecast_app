@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:weather_forecast_app/app/core/routes/app_routes.dart';
 import 'package:weather_forecast_app/app/core/services/countries_service/countries_service.dart';
+import 'package:weather_forecast_app/app/core/services/location_service/location_service.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 import 'package:weather_forecast_app/app/core/services/network_service/network_service.dart';
 import 'package:weather_forecast_app/app/core/services/rest_client/rest_client.dart';
@@ -17,10 +19,14 @@ class AppModule extends Module {
     i.addLazySingleton<RestClient>((_) => RestClientImpl.instance);
 
     // Network
-    i.addLazySingleton<NetworkService>((i) => NetworkService(i.get(), i.get()));
+    i.add<Connectivity>(Connectivity.new);
+    i.addSingleton<NetworkService>(NetworkService.new);
 
     // Countries
-    i.addLazySingleton<CountriesService>((i) => CountriesService(i.get()));
+    i.addLazySingleton<CountriesService>(CountriesService.new);
+
+    // Location
+    i.addSingleton<LocationService>(LocationService.new);
   }
 
   @override

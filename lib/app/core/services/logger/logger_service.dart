@@ -9,7 +9,7 @@ abstract class LoggerService {
   void logError(exception, {StackTrace? stackTrace});
 }
 
-class LoggerServiceImpl {
+class LoggerServiceImpl implements LoggerService {
   LoggerServiceImpl() {
     Isolate.current.addErrorListener(isolateErrorListener);
   }
@@ -23,12 +23,14 @@ class LoggerServiceImpl {
     }).sendPort;
   }
 
+  @override
   void log(String message) {
     if (!kReleaseMode) {
       dev.log('Logged message: $message');
     }
   }
 
+  @override
   void logError(exception, {StackTrace? stackTrace}) {
     if (!kReleaseMode) {
       dev.log('Exception: ${exception.toString()}');

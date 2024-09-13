@@ -16,6 +16,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final store = Modular.get<SplashStore>();
+
   List<ReactionDisposer> reactions = [];
 
   @override

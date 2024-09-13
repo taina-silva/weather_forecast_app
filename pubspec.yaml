@@ -45,6 +45,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   geolocator: ^13.0.1
   geocoding: ^3.0.0
+  tuple: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,7 @@ flutter:
     - assets/app_icon/
     - assets/logo/
     - assets/icons/
+    - assets/jsons/
 
   fonts:
     - family: K2D

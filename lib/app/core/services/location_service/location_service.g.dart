@@ -43,6 +43,22 @@ mixin _$LocationService on LocationServiceBase, Store {
     });
   }
 
+  late final _$lastKnownLocationAtom =
+      Atom(name: 'LocationServiceBase.lastKnownLocation', context: context);
+
+  @override
+  LocationModel? get lastKnownLocation {
+    _$lastKnownLocationAtom.reportRead();
+    return super.lastKnownLocation;
+  }
+
+  @override
+  set lastKnownLocation(LocationModel? value) {
+    _$lastKnownLocationAtom.reportWrite(value, super.lastKnownLocation, () {
+      super.lastKnownLocation = value;
+    });
+  }
+
   late final _$checkPermissionAsyncAction =
       AsyncAction('LocationServiceBase.checkPermission', context: context);
 
@@ -59,11 +75,32 @@ mixin _$LocationService on LocationServiceBase, Store {
     return _$requestPermissionAsyncAction.run(() => super.requestPermission());
   }
 
+  late final _$getCurrentLocationAsyncAction =
+      AsyncAction('LocationServiceBase.getCurrentLocation', context: context);
+
+  @override
+  Future<LocationModel?> getCurrentLocation({bool forceFetch = false}) {
+    return _$getCurrentLocationAsyncAction
+        .run(() => super.getCurrentLocation(forceFetch: forceFetch));
+  }
+
+  late final _$getCityNameFromLocationAsyncAction = AsyncAction(
+      'LocationServiceBase.getCityNameFromLocation',
+      context: context);
+
+  @override
+  Future<Tuple2<String, String>?> getCityNameFromLocation(
+      {LocationModel? location}) {
+    return _$getCityNameFromLocationAsyncAction
+        .run(() => super.getCityNameFromLocation(location: location));
+  }
+
   @override
   String toString() {
     return '''
 locationServiceStatus: ${locationServiceStatus},
-locationPermissionStatus: ${locationPermissionStatus}
+locationPermissionStatus: ${locationPermissionStatus},
+lastKnownLocation: ${lastKnownLocation}
     ''';
   }
 }

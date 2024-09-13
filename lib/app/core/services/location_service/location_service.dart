@@ -1,42 +1,23 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
+import 'package:tuple/tuple.dart';
 import 'package:weather_forecast_app/app/core/services/location_service/models/location_model.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 
 part 'location_service.g.dart';
 
-class LocationService = LocationServiceBase with _$LocationService;
-
 enum LocationServiceStatus { enabled, disabled }
 
-enum LocationPermissionStatus { ask, granted, denied }
+enum LocationPermissionStatus { granted, denied }
+
+class LocationService = LocationServiceBase with _$LocationService;
 
 abstract class LocationServiceBase with Store {
   final LoggerService _loggerService;
 
-  List<ReactionDisposer> reactions = [];
-
   LocationServiceBase(this._loggerService) {
-    Geolocator.getServiceStatusStream().listen((status) {
-      if (status == ServiceStatus.disabled) {
-        locationServiceStatus = LocationServiceStatus.disabled;
-      } else {
-        locationServiceStatus = LocationServiceStatus.enabled;
-      }
-    });
-
-    reactions = [
-      reaction((_) => locationServiceStatus, (LocationServiceStatus status) {
-        if (status == LocationServiceStatus.disabled) {
-          locationPermissionStatus = LocationPermissionStatus.denied;
-        } else {
-          checkPermission();
-        }
-      }),
-      reaction((_) => locationPermissionStatus, (LocationPermissionStatus status) {
-        if (status == LocationPermissionStatus.ask) requestPermission();
-      }),
-    ];
+    getCurrentLocation();
   }
 
   @observable
@@ -45,46 +26,74 @@ abstract class LocationServiceBase with Store {
   @observable
   LocationPermissionStatus locationPermissionStatus = LocationPermissionStatus.denied;
 
+  @observable
+  LocationModel? lastKnownLocation;
+
   @action
   Future<void> checkPermission() async {
-    try {
-      final result = await Geolocator.checkPermission();
-      if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
-        locationPermissionStatus = LocationPermissionStatus.granted;
-      } else if (result == LocationPermission.denied) {
-        locationPermissionStatus = LocationPermissionStatus.ask;
-      } else {
-        locationPermissionStatus = LocationPermissionStatus.denied;
-      }
-    } catch (error, stackTrace) {
-      _loggerService.logError('Error checking location permission: $error', stackTrace: stackTrace);
-      locationPermissionStatus = LocationPermissionStatus.denied;
-    }
+    final permission = await _handlePermission(Geolocator.checkPermission);
+    locationPermissionStatus = permission;
   }
 
   @action
   Future<void> requestPermission() async {
+    final permission = await _handlePermission(Geolocator.requestPermission);
+    locationPermissionStatus = permission;
+  }
+
+  Future<LocationPermissionStatus> _handlePermission(
+      Future<LocationPermission> Function() permissionCheck) async {
     try {
-      final result = await Geolocator.requestPermission();
+      final enabled = await Geolocator.isLocationServiceEnabled();
+      if (!enabled) return LocationPermissionStatus.denied;
+
+      final result = await permissionCheck();
 
       if (result == LocationPermission.always || result == LocationPermission.whileInUse) {
-        locationPermissionStatus = LocationPermissionStatus.granted;
+        await getCurrentLocation();
+        return LocationPermissionStatus.granted;
       } else {
-        locationPermissionStatus = LocationPermissionStatus.denied;
+        return LocationPermissionStatus.denied;
       }
     } catch (error, stackTrace) {
-      _loggerService.logError('Error requesting location permission: $error',
-          stackTrace: stackTrace);
-      locationPermissionStatus = LocationPermissionStatus.denied;
+      _loggerService.logError('Error handling location permission: $error', stackTrace: stackTrace);
+      return LocationPermissionStatus.denied;
     }
   }
 
-  Future<LocationModel?> getCurrentLocation() async {
+  @action
+  Future<LocationModel?> getCurrentLocation({bool forceFetch = false}) async {
+    if (lastKnownLocation != null && !forceFetch) return lastKnownLocation;
+
     try {
       final position = await Geolocator.getCurrentPosition();
-      return LocationModel(latitude: position.latitude, longitude: position.longitude);
+      final location = LocationModel(latitude: position.latitude, longitude: position.longitude);
+      lastKnownLocation = location;
+      return location;
     } catch (error, stackTrace) {
-      _loggerService.logError('Error getting current location: $error', stackTrace: stackTrace);
+      if (error is PermissionDeniedException) {
+        requestPermission();
+      } else {
+        _loggerService.logError('Error getting current location: $error', stackTrace: stackTrace);
+      }
+    }
+
+    return null;
+  }
+
+  @action
+  Future<Tuple2<String, String>?> getCityNameFromLocation({LocationModel? location}) async {
+    final loc = location ?? lastKnownLocation ?? await getCurrentLocation();
+    if (loc == null) return null;
+
+    try {
+      final placemarks = await placemarkFromCoordinates(loc.latitude, loc.longitude);
+      if (placemarks.isEmpty) return null;
+
+      return Tuple2(placemarks.first.subAdministrativeArea ?? '', placemarks.first.country ?? '');
+    } catch (error, stackTrace) {
+      _loggerService.logError('Error getting city name from location: $error',
+          stackTrace: stackTrace);
     }
 
     return null;

@@ -19,7 +19,7 @@ abstract class RestClient {
   });
 }
 
-class RestClientImpl {
+class RestClientImpl implements RestClient {
   RestClientImpl._singleton();
   static final RestClientImpl instance = RestClientImpl._singleton();
 
@@ -38,6 +38,7 @@ class RestClientImpl {
     receiveTimeout: const Duration(seconds: 30),
   );
 
+  @override
   Future<RestClientResponse> get(
     String path, {
     String? baseUrl,
@@ -69,6 +70,7 @@ class RestClientImpl {
     }
   }
 
+  @override
   Future<RestClientResponse> post(
     String path, {
     String? baseUrl,
