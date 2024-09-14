@@ -20,7 +20,7 @@ abstract class CountriesServiceBase with Store {
   }
 
   @observable
-  ObservableList<CountryModel> countries = ObservableList<CountryModel>();
+  List<CountryModel> countries = [];
 
   @action
   Future<void> _fetchCountries() async {
@@ -45,7 +45,7 @@ abstract class CountriesServiceBase with Store {
     }
   }
 
-  Future<List<String>> countriesNames({String? search}) async {
+  Future<List<CountryModel>> getCountries({String? search}) async {
     try {
       String? text;
 
@@ -54,14 +54,13 @@ abstract class CountriesServiceBase with Store {
 
       return countries
           .where((country) => capitalizeAndNoDiacritics(country.name).contains(text ?? ''))
-          .map((country) => capitalizeAndNoDiacritics(country.name))
           .toList();
     } catch (_) {
       rethrow;
     }
   }
 
-  Future<List<String>> citiesNames(CountryModel country, {String? search}) async {
+  Future<List<String>> getCities(CountryModel country, {String? search}) async {
     try {
       String? text;
 
@@ -69,7 +68,6 @@ abstract class CountriesServiceBase with Store {
 
       return country.cities
           .where((city) => capitalizeAndNoDiacritics(city).contains(text ?? ''))
-          .map((city) => capitalizeAndNoDiacritics(city))
           .toList();
     } catch (_) {
       rethrow;

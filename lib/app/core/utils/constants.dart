@@ -1,14 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 
 abstract class Layout {
   static const double borderRadiusNano = 4;
   static const double borderRadiusSmall = 8;
   static const double borderRadiusMedium = 16;
   static const double borderRadiusBig = 100;
-
-  static const double borderWidth = 1;
 
   static const double appBarSize = 72;
   static const double appBarTrailingHeight = 52;
@@ -17,10 +16,10 @@ abstract class Layout {
   static const double bottomNavBarSize = 60;
 
   static BoxShadow boxShadow = BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
-    spreadRadius: 1,
-    blurRadius: 1,
-    offset: const Offset(0, 1),
+    color: AppColors.primaryBlue.withOpacity(0.5),
+    spreadRadius: 0.5,
+    blurRadius: 0.5,
+    offset: const Offset(0, 0.5),
   );
 
   static double bottomPadding(BuildContext context) =>
@@ -43,18 +42,11 @@ abstract class FWeight {
   static const FontWeight black = FontWeight.w900;
 }
 
-abstract class FSize {
-  static const double small = 18;
-  static const double regular = 22;
-  static const double big = 28;
-}
-
 abstract class Space {
   static const double nano = 8;
-  static const double small = 12;
-  static const double normal = 16;
-  static const double large = 24;
-  static const double extraLarge = 32;
+  static const double small = 16;
+  static const double normal = 24;
+  static const double big = 32;
 }
 
 abstract class Assets {

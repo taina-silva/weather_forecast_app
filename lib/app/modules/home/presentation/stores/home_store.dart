@@ -2,7 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:weather_forecast_app/app/core/services/countries_service/countries_service.dart';
 import 'package:weather_forecast_app/app/core/services/countries_service/models/country_model.dart';
 import 'package:weather_forecast_app/app/core/services/location_service/location_service.dart';
-import 'package:weather_forecast_app/app/core/services/location_service/models/location_model.dart';
+import 'package:weather_forecast_app/app/core/services/location_service/models/position_model.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/home_states.dart';
 
 part 'home_store.g.dart';
@@ -19,47 +19,26 @@ abstract class HomeStoreBase with Store {
     initLocationSubscription();
 
     reactions = [
-      reaction((_) => searchCountry, (String text) => getCountries()),
-      reaction((_) => searchCity, (String text) => getCities()),
-      reaction((_) => selectedCountry, (String? country) {
-        if (country != null) {
-          final CountryModel? countryModel = _countriesService.countryFromName(selectedCountry!);
-          if (countryModel != null) cities = countryModel.cities;
-        }
+      // reaction((_) => searchCountry, (String text) => getCountries(text)),
+      // reaction((_) => searchCity, (String text) => getCities(text)),
+      reaction((_) => _selectedCountry, (CountryModel? country) {
+        if (country != null) cities = country.cities;
       }),
     ];
   }
 
   void initLocationSubscription() {
-    _locationService.lastKnownLocation.listen((LocationModel? location) async {
-      if (location != null && selectedCity == null) {
-        final result = await _locationService.getCityNameFromLocation(location);
+    _locationService.lastKnownPosition.listen((PositionModel? location) async {
+      if (location != null && _selectedCity == null) {
+        final result = await _locationService.getLocationFromPosition(location);
 
         if (result != null) {
-          selectedCity = result.item1;
-          selectedCountry = result.item2;
+          _selectedCity = result.item1;
+          _selectedCountry = _countriesService.countryFromName(result.item2);
         }
       }
     });
   }
-
-  @observable
-  List<String> countries = [];
-
-  @observable
-  List<String> cities = [];
-
-  @observable
-  String? selectedCountry;
-
-  @observable
-  String? selectedCity;
-
-  @observable
-  String searchCountry = '';
-
-  @observable
-  String searchCity = '';
 
   @observable
   GetCountriesState getCountriesState = GetCountriesInitialState();
@@ -67,36 +46,58 @@ abstract class HomeStoreBase with Store {
   @observable
   GetCitiesState getCitiesState = GetCitiesInitialState();
 
-  @action
-  Future<void> getCountries() async {
-    getCountriesState = GetCountriesLoadingState();
+  @observable
+  List<CountryModel> countries = [];
 
-    try {
-      countries = await _countriesService.countriesNames();
-      getCountriesState = GetCountriesSuccessState();
-    } catch (error) {
-      getCountriesState = GetCountriesErrorState(error.toString());
-    }
+  @observable
+  List<String> cities = [];
+
+  @readonly
+  CountryModel? _selectedCountry;
+
+  @readonly
+  String? _selectedCity;
+
+  @action
+  void setSelectedCountry(CountryModel? country) {
+    setSelectedCity(null);
+    _selectedCountry = country;
   }
 
   @action
-  Future<void> getCities({String? search}) async {
-    if (selectedCountry == null) return;
+  void setSelectedCity(String? city) {
+    _selectedCity = city;
+  }
+
+  @action
+  Future<List<CountryModel>> getCountries(String? search) async {
+    getCountriesState = GetCountriesLoadingState();
+
+    try {
+      countries = await _countriesService.getCountries(search: search);
+      getCountriesState = GetCountriesSuccessState();
+      return countries;
+    } catch (error) {
+      getCountriesState = GetCountriesErrorState(error.toString());
+    }
+
+    return [];
+  }
+
+  @action
+  Future<List<String>> getCities(String? search) async {
+    if (_selectedCountry == null) return [];
 
     getCitiesState = GetCitiesLoadingState();
 
     try {
-      CountryModel? country = _countriesService.countryFromName(selectedCountry!);
-
-      if (country == null) {
-        getCitiesState = GetCitiesErrorState('Country not found');
-        return;
-      }
-
-      cities = await _countriesService.citiesNames(country, search: search);
+      cities = await _countriesService.getCities(_selectedCountry!, search: search);
       getCitiesState = GetCitiesSuccessState();
+      return cities;
     } catch (error) {
       getCitiesState = GetCitiesErrorState(error.toString());
     }
+
+    return [];
   }
 }

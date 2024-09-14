@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fpdart/fpdart.dart' hide State;
+import 'package:tuple/tuple.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 
 class CustomAppBar extends StatefulWidget {
-  final Either<String, Widget> title;
+  final Either<Tuple2<String, VoidCallback>, Widget> title;
   final List<Widget>? trailing;
   final Widget? leading;
   final Color? backgroundColor;
@@ -41,24 +42,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ..._renderAppBarLeading(context),
-            widget.title.fold(
-              (title) => GestureDetector(
-                onTap: canPop() ? () => Modular.to.pop() : null,
-                child: CustomText(
-                  text: title,
-                  textType: TextType.medium,
-                  textAlign: TextAlign.center,
-                  fWeight: FWeight.bold,
-                  color: AppColors.neutral0,
+            // _renderAppBarLeading(context),
+            Expanded(
+              child: widget.title.fold(
+                (title) => GestureDetector(
+                  onTap: canPop() ? () => Modular.to.pop() : title.item2,
+                  child: CustomText(
+                    text: title.item1,
+                    textType: TextType.medium,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    fWeight: FWeight.bold,
+                    color: AppColors.neutral0,
+                  ),
+                ),
+                (widget) => Container(
+                  alignment: Alignment.bottomLeft,
+                  child: widget,
                 ),
               ),
-              (widget) => Container(
-                alignment: Alignment.bottomLeft,
-                child: widget,
-              ),
             ),
-            ..._renderAppBarTrailing(context),
+            _renderAppBarTrailing(context),
           ],
         ),
       ),
@@ -67,52 +71,43 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   bool canPop() => Modular.to.canPop();
 
-  List<Widget> _renderAppBarLeading(BuildContext context) {
+  Widget _renderAppBarLeading(BuildContext context) {
     if (widget.leading != null) {
-      return [
-        Container(
-          margin: const EdgeInsets.only(right: Layout.appBarLeadingAndTrailingWidth / 4),
-          child: widget.leading!,
-        )
-      ];
+      return Container(
+        margin: const EdgeInsets.only(right: Layout.appBarLeadingAndTrailingWidth / 4),
+        child: widget.leading!,
+      );
     }
 
-    if (canPop()) {
-      return [
-        Container(
-          margin: const EdgeInsets.only(right: 10),
-          child: GestureDetector(
-            onTap: () => Modular.to.pop(),
-            child: const Icon(
-              Icons.keyboard_arrow_left,
-              color: AppColors.neutral900,
-              size: Layout.appBarLeadingAndTrailingWidth,
-              semanticLabel: 'Voltar para a página anterior',
-            ),
-          ),
-        )
-      ];
-    }
+    if (!canPop()) return const SizedBox();
 
-    return [const SizedBox()];
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      child: GestureDetector(
+        onTap: () => Modular.to.pop(),
+        child: const Icon(
+          Icons.keyboard_arrow_left,
+          color: AppColors.neutral900,
+          size: Layout.appBarLeadingAndTrailingWidth,
+          semanticLabel: 'Voltar para a página anterior',
+        ),
+      ),
+    );
   }
 
-  List<Widget> _renderAppBarTrailing(BuildContext context) {
-    if (widget.trailing == null) return [];
+  Widget _renderAppBarTrailing(BuildContext context) {
+    if (widget.trailing == null) return const SizedBox();
 
-    return [
-      const SizedBox(width: Space.nano),
-      ListView.separated(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.trailing!.length,
-        itemBuilder: (BuildContext context, int index) {
-          return widget.trailing![index];
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(width: Space.small);
-        },
-      )
-    ];
+    return ListView.separated(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: widget.trailing!.length,
+      itemBuilder: (BuildContext context, int index) {
+        return widget.trailing![index];
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(width: Space.small);
+      },
+    );
   }
 }

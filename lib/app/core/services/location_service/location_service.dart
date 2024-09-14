@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tuple/tuple.dart';
-import 'package:weather_forecast_app/app/core/services/location_service/models/location_model.dart';
+import 'package:weather_forecast_app/app/core/services/location_service/models/position_model.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 
 enum LocationServiceStatus { enabled, disabled }
@@ -27,10 +27,10 @@ class LocationService {
 
   LocationPermissionStatus locationPermissionStatus = LocationPermissionStatus.denied;
 
-  final StreamController<LocationModel?> _lastKnownLocationStreamController =
-      StreamController<LocationModel?>.broadcast();
+  final StreamController<PositionModel?> _lastKnownPositionStreamController =
+      StreamController<PositionModel?>.broadcast();
 
-  Stream<LocationModel?> get lastKnownLocation => _lastKnownLocationStreamController.stream;
+  Stream<PositionModel?> get lastKnownPosition => _lastKnownPositionStreamController.stream;
 
   Future<void> checkPermission() async {
     final permission = await _handlePermission(Geolocator.checkPermission);
@@ -62,12 +62,13 @@ class LocationService {
     }
   }
 
-  Future<LocationModel?> getCurrentLocation() async {
+  Future<PositionModel?> getCurrentLocation() async {
     try {
       final position = await Geolocator.getCurrentPosition();
-      final location = LocationModel(latitude: position.latitude, longitude: position.longitude);
-      _lastKnownLocationStreamController.add(location);
-      return location;
+      final positionModel =
+          PositionModel(latitude: position.latitude, longitude: position.longitude);
+      _lastKnownPositionStreamController.add(positionModel);
+      return positionModel;
     } catch (error, stackTrace) {
       if (error is PermissionDeniedException) {
         requestPermission();
@@ -79,9 +80,9 @@ class LocationService {
     return null;
   }
 
-  Future<Tuple2<String, String>?> getCityNameFromLocation(LocationModel location) async {
+  Future<Tuple2<String, String>?> getLocationFromPosition(PositionModel position) async {
     try {
-      final placemarks = await placemarkFromCoordinates(location.latitude, location.longitude);
+      final placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placemarks.isEmpty) return null;
 
       return Tuple2(placemarks.first.subAdministrativeArea ?? '', placemarks.first.country ?? '');

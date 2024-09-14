@@ -47,6 +47,7 @@ dependencies:
   geocoding: ^3.0.0
   tuple: ^2.0.2
   dropdown_search: ^5.0.6
+  sliver_tools: ^0.2.12
 
 dev_dependencies:
   flutter_test:

@@ -13,13 +13,13 @@ mixin _$CountriesService on CountriesServiceBase, Store {
       Atom(name: 'CountriesServiceBase.countries', context: context);
 
   @override
-  ObservableList<CountryModel> get countries {
+  List<CountryModel> get countries {
     _$countriesAtom.reportRead();
     return super.countries;
   }
 
   @override
-  set countries(ObservableList<CountryModel> value) {
+  set countries(List<CountryModel> value) {
     _$countriesAtom.reportWrite(value, super.countries, () {
       super.countries = value;
     });
