@@ -16,13 +16,14 @@ abstract class CountriesServiceBase with Store {
   final String jsonPath = '${Assets.jsons}/locations.json';
 
   CountriesServiceBase(this._loggerService) {
-    fetchCountries();
+    _fetchCountries();
   }
 
   @observable
   ObservableList<CountryModel> countries = ObservableList<CountryModel>();
 
-  Future<void> fetchCountries() async {
+  @action
+  Future<void> _fetchCountries() async {
     try {
       final jsonString = await rootBundle.loadString(jsonPath);
       final data = json.decode(jsonString);
@@ -31,6 +32,7 @@ abstract class CountriesServiceBase with Store {
       countries = list.asObservable();
     } catch (error, stackTrace) {
       _loggerService.logError('Error fetching countries: $error', stackTrace: stackTrace);
+      rethrow;
     }
   }
 
@@ -43,16 +45,34 @@ abstract class CountriesServiceBase with Store {
     }
   }
 
-  List<String> countriesNamesBySearch(String search) {
-    String text = capitalizeAndNoDiacritics(search);
-    return countries
-        .where((country) => capitalizeAndNoDiacritics(country.name).contains(text))
-        .map((country) => capitalizeAndNoDiacritics(country.name))
-        .toList();
+  Future<List<String>> countriesNames({String? search}) async {
+    try {
+      String? text;
+
+      if (search != null) text = capitalizeAndNoDiacritics(search);
+      if (countries.isEmpty) await _fetchCountries();
+
+      return countries
+          .where((country) => capitalizeAndNoDiacritics(country.name).contains(text ?? ''))
+          .map((country) => capitalizeAndNoDiacritics(country.name))
+          .toList();
+    } catch (_) {
+      rethrow;
+    }
   }
 
-  List<String> citiesNamesBySearch(CountryModel country, String search) {
-    String text = capitalizeAndNoDiacritics(search);
-    return country.cities.where((city) => capitalizeAndNoDiacritics(city).contains(text)).toList();
+  Future<List<String>> citiesNames(CountryModel country, {String? search}) async {
+    try {
+      String? text;
+
+      if (search != null) text = capitalizeAndNoDiacritics(search);
+
+      return country.cities
+          .where((city) => capitalizeAndNoDiacritics(city).contains(text ?? ''))
+          .map((city) => capitalizeAndNoDiacritics(city))
+          .toList();
+    } catch (_) {
+      rethrow;
+    }
   }
 }

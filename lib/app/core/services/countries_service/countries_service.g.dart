@@ -25,6 +25,14 @@ mixin _$CountriesService on CountriesServiceBase, Store {
     });
   }
 
+  late final _$_fetchCountriesAsyncAction =
+      AsyncAction('CountriesServiceBase._fetchCountries', context: context);
+
+  @override
+  Future<void> _fetchCountries() {
+    return _$_fetchCountriesAsyncAction.run(() => super._fetchCountries());
+  }
+
   @override
   String toString() {
     return '''

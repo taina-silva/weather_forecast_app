@@ -28,7 +28,7 @@ class _AppWidgetState extends State<AppWidget> with WidgetsBindingObserver {
 
   @override
   Future<void> dispose() async {
-    // Modular.to.removeListener(navigationListener);
+    Modular.to.removeListener(navigationListener);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

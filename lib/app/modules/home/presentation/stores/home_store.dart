@@ -3,6 +3,7 @@ import 'package:weather_forecast_app/app/core/services/countries_service/countri
 import 'package:weather_forecast_app/app/core/services/countries_service/models/country_model.dart';
 import 'package:weather_forecast_app/app/core/services/location_service/location_service.dart';
 import 'package:weather_forecast_app/app/core/services/location_service/models/location_model.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/home_states.dart';
 
 part 'home_store.g.dart';
 
@@ -15,37 +16,41 @@ abstract class HomeStoreBase with Store {
   List<ReactionDisposer> reactions = [];
 
   HomeStoreBase(this._countriesService, this._locationService) {
-    reactions = [
-      reaction((_) => searchCountry, (String text) {
-        countries = _countriesService.countriesNamesBySearch(text).asObservable();
-      }),
-      reaction((_) => searchCity, (String text) {
-        cities = _countriesService.citiesNamesBySearch(selectedCountry!, text).asObservable();
-      }),
-      reaction((_) => selectedCountry, (CountryModel? country) {
-        if (country != null) cities = country.cities.asObservable();
-      }),
-      reaction((_) => _locationService.lastKnownLocation, (LocationModel? location) async {
-        if (location != null && selectedCity == null) {
-          final result = await _locationService.getCityNameFromLocation();
+    initLocationSubscription();
 
-          if (result != null) {
-            selectedCity = result.item1;
-            selectedCountry = _countriesService.countryFromName(result.item2);
-          }
+    reactions = [
+      reaction((_) => searchCountry, (String text) => getCountries()),
+      reaction((_) => searchCity, (String text) => getCities()),
+      reaction((_) => selectedCountry, (String? country) {
+        if (country != null) {
+          final CountryModel? countryModel = _countriesService.countryFromName(selectedCountry!);
+          if (countryModel != null) cities = countryModel.cities;
         }
       }),
     ];
   }
 
-  @observable
-  ObservableList<String> countries = ObservableList<String>();
+  void initLocationSubscription() {
+    _locationService.lastKnownLocation.listen((LocationModel? location) async {
+      if (location != null && selectedCity == null) {
+        final result = await _locationService.getCityNameFromLocation(location);
+
+        if (result != null) {
+          selectedCity = result.item1;
+          selectedCountry = result.item2;
+        }
+      }
+    });
+  }
 
   @observable
-  ObservableList<String> cities = ObservableList<String>();
+  List<String> countries = [];
 
   @observable
-  CountryModel? selectedCountry;
+  List<String> cities = [];
+
+  @observable
+  String? selectedCountry;
 
   @observable
   String? selectedCity;
@@ -55,4 +60,43 @@ abstract class HomeStoreBase with Store {
 
   @observable
   String searchCity = '';
+
+  @observable
+  GetCountriesState getCountriesState = GetCountriesInitialState();
+
+  @observable
+  GetCitiesState getCitiesState = GetCitiesInitialState();
+
+  @action
+  Future<void> getCountries() async {
+    getCountriesState = GetCountriesLoadingState();
+
+    try {
+      countries = await _countriesService.countriesNames();
+      getCountriesState = GetCountriesSuccessState();
+    } catch (error) {
+      getCountriesState = GetCountriesErrorState(error.toString());
+    }
+  }
+
+  @action
+  Future<void> getCities({String? search}) async {
+    if (selectedCountry == null) return;
+
+    getCitiesState = GetCitiesLoadingState();
+
+    try {
+      CountryModel? country = _countriesService.countryFromName(selectedCountry!);
+
+      if (country == null) {
+        getCitiesState = GetCitiesErrorState('Country not found');
+        return;
+      }
+
+      cities = await _countriesService.citiesNames(country, search: search);
+      getCitiesState = GetCitiesSuccessState();
+    } catch (error) {
+      getCitiesState = GetCitiesErrorState(error.toString());
+    }
+  }
 }

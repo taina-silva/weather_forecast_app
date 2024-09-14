@@ -13,13 +13,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.countries', context: context);
 
   @override
-  ObservableList<String> get countries {
+  List<String> get countries {
     _$countriesAtom.reportRead();
     return super.countries;
   }
 
   @override
-  set countries(ObservableList<String> value) {
+  set countries(List<String> value) {
     _$countriesAtom.reportWrite(value, super.countries, () {
       super.countries = value;
     });
@@ -29,13 +29,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.cities', context: context);
 
   @override
-  ObservableList<String> get cities {
+  List<String> get cities {
     _$citiesAtom.reportRead();
     return super.cities;
   }
 
   @override
-  set cities(ObservableList<String> value) {
+  set cities(List<String> value) {
     _$citiesAtom.reportWrite(value, super.cities, () {
       super.cities = value;
     });
@@ -45,13 +45,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
       Atom(name: 'HomeStoreBase.selectedCountry', context: context);
 
   @override
-  CountryModel? get selectedCountry {
+  String? get selectedCountry {
     _$selectedCountryAtom.reportRead();
     return super.selectedCountry;
   }
 
   @override
-  set selectedCountry(CountryModel? value) {
+  set selectedCountry(String? value) {
     _$selectedCountryAtom.reportWrite(value, super.selectedCountry, () {
       super.selectedCountry = value;
     });
@@ -105,6 +105,54 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$getCountriesStateAtom =
+      Atom(name: 'HomeStoreBase.getCountriesState', context: context);
+
+  @override
+  GetCountriesState get getCountriesState {
+    _$getCountriesStateAtom.reportRead();
+    return super.getCountriesState;
+  }
+
+  @override
+  set getCountriesState(GetCountriesState value) {
+    _$getCountriesStateAtom.reportWrite(value, super.getCountriesState, () {
+      super.getCountriesState = value;
+    });
+  }
+
+  late final _$getCitiesStateAtom =
+      Atom(name: 'HomeStoreBase.getCitiesState', context: context);
+
+  @override
+  GetCitiesState get getCitiesState {
+    _$getCitiesStateAtom.reportRead();
+    return super.getCitiesState;
+  }
+
+  @override
+  set getCitiesState(GetCitiesState value) {
+    _$getCitiesStateAtom.reportWrite(value, super.getCitiesState, () {
+      super.getCitiesState = value;
+    });
+  }
+
+  late final _$getCountriesAsyncAction =
+      AsyncAction('HomeStoreBase.getCountries', context: context);
+
+  @override
+  Future<void> getCountries() {
+    return _$getCountriesAsyncAction.run(() => super.getCountries());
+  }
+
+  late final _$getCitiesAsyncAction =
+      AsyncAction('HomeStoreBase.getCities', context: context);
+
+  @override
+  Future<void> getCities({String? search}) {
+    return _$getCitiesAsyncAction.run(() => super.getCities(search: search));
+  }
+
   @override
   String toString() {
     return '''
@@ -113,7 +161,9 @@ cities: ${cities},
 selectedCountry: ${selectedCountry},
 selectedCity: ${selectedCity},
 searchCountry: ${searchCountry},
-searchCity: ${searchCity}
+searchCity: ${searchCity},
+getCountriesState: ${getCountriesState},
+getCitiesState: ${getCitiesState}
     ''';
   }
 }

@@ -12,7 +12,7 @@ abstract class SplashStoreBase with Store {
   @action
   Future<void> manageSplash() async {
     _state = LoadingState();
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1700));
     _state = ToEntryState();
   }
 }

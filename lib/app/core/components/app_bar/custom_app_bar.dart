@@ -28,83 +28,81 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? AppColors.primaryBackground,
+        color: widget.backgroundColor ?? AppColors.primaryBlue,
         boxShadow: [Layout.boxShadow],
+        borderRadius: const BorderRadius.vertical(
+          bottom: Radius.circular(Layout.borderRadiusMedium),
+        ),
       ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: Space.normal),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: Layout.appBarSize,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _renderAppBarLeading(context),
-                      Expanded(
-                        child: widget.title.fold(
-                          (title) => GestureDetector(
-                            onTap: canPop() ? () => Modular.to.pop() : null,
-                            child: CustomText(
-                              text: title,
-                              textType: TextType.large,
-                              fWeight: FWeight.bold,
-                              color: AppColors.neutral900,
-                            ),
-                          ),
-                          (widget) => Container(
-                            alignment: Alignment.bottomLeft,
-                            child: widget,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          height: Layout.appBarTrailingHeight,
-                          child: _renderAppBarTrailing(context)),
-                    ],
-                  ),
+      child: Container(
+        width: double.infinity,
+        height: Layout.appBarSize,
+        padding: const EdgeInsets.symmetric(horizontal: Space.normal),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ..._renderAppBarLeading(context),
+            widget.title.fold(
+              (title) => GestureDetector(
+                onTap: canPop() ? () => Modular.to.pop() : null,
+                child: CustomText(
+                  text: title,
+                  textType: TextType.medium,
+                  textAlign: TextAlign.center,
+                  fWeight: FWeight.bold,
+                  color: AppColors.neutral0,
                 ),
-              ],
+              ),
+              (widget) => Container(
+                alignment: Alignment.bottomLeft,
+                child: widget,
+              ),
             ),
-          ),
-        ],
+            ..._renderAppBarTrailing(context),
+          ],
+        ),
       ),
     );
   }
 
   bool canPop() => Modular.to.canPop();
 
-  Widget _renderAppBarLeading(BuildContext context) {
+  List<Widget> _renderAppBarLeading(BuildContext context) {
     if (widget.leading != null) {
-      return Container(
-        margin: const EdgeInsets.only(right: Layout.appBarLeadingAndTrailingWidth / 4),
-        child: widget.leading!,
-      );
+      return [
+        Container(
+          margin: const EdgeInsets.only(right: Layout.appBarLeadingAndTrailingWidth / 4),
+          child: widget.leading!,
+        )
+      ];
     }
 
     if (canPop()) {
-      return Container(
-        margin: const EdgeInsets.only(right: 10),
-        child: GestureDetector(
-          onTap: () => Modular.to.pop(),
-          child: const Icon(
-            Icons.keyboard_arrow_left,
-            color: AppColors.neutral900,
-            size: Layout.appBarLeadingAndTrailingWidth,
-            semanticLabel: 'Voltar para a página anterior',
+      return [
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: GestureDetector(
+            onTap: () => Modular.to.pop(),
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              color: AppColors.neutral900,
+              size: Layout.appBarLeadingAndTrailingWidth,
+              semanticLabel: 'Voltar para a página anterior',
+            ),
           ),
-        ),
-      );
+        )
+      ];
     }
 
-    return const SizedBox();
+    return [const SizedBox()];
   }
 
-  Widget _renderAppBarTrailing(BuildContext context) {
-    if (widget.trailing != null) {
-      return ListView.separated(
+  List<Widget> _renderAppBarTrailing(BuildContext context) {
+    if (widget.trailing == null) return [];
+
+    return [
+      const SizedBox(width: Space.nano),
+      ListView.separated(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: widget.trailing!.length,
@@ -112,23 +110,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           return widget.trailing![index];
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(width: 16);
+          return const SizedBox(width: Space.small);
         },
-      );
-    }
-
-    const defaultTrailings = [];
-
-    return ListView.separated(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      itemCount: defaultTrailings.length,
-      itemBuilder: (BuildContext context, int index) {
-        return defaultTrailings[index];
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(width: 16);
-      },
-    );
+      )
+    ];
   }
 }
