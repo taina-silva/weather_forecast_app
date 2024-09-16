@@ -13,8 +13,8 @@ class CustomScaffold extends StatelessWidget {
     this.appBar = const SizedBox(),
     this.body = const SizedBox(),
     this.floatingActionButton,
-    this.backgroundColor = AppColors.primaryBackground,
-    this.statusBarColor = AppColors.primaryBackground,
+    this.backgroundColor = AppColors.background,
+    this.statusBarColor = AppColors.background,
   });
 
   @override

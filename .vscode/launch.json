@@ -9,9 +9,9 @@
         "--dart-define",
         "ENV=dev",
         "--dart-define",
-        "WEATHER_API_URL=https://api.openweathermap.org/data/3.0/onecall/timemachine",
+        "WEATHER_API_URL=https://api.open-meteo.com/v1/",
         "--dart-define",
-        "GEO_API_URL=http://api.openweathermap.org/geo/1.0/direct",
+        "GEO_API_URL=http://api.openweathermap.org/geo/1.0/",
         "--dart-define",
         "API_KEY=8f7f35285c47d5efa08095037bfe5169",
       ]

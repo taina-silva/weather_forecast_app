@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 
 abstract class LoggerService {
   void log(String message);
-  void logError(exception, {StackTrace? stackTrace});
+  void error(exception, {StackTrace? stackTrace});
 }
 
 class LoggerServiceImpl implements LoggerService {
@@ -19,7 +19,7 @@ class LoggerServiceImpl implements LoggerService {
       final List<dynamic> errorAndStacktrace = pair;
       final exception = errorAndStacktrace.first;
       final stackTrace = errorAndStacktrace[1];
-      logError(exception, stackTrace: stackTrace);
+      error(exception, stackTrace: stackTrace);
     }).sendPort;
   }
 
@@ -31,7 +31,7 @@ class LoggerServiceImpl implements LoggerService {
   }
 
   @override
-  void logError(exception, {StackTrace? stackTrace}) {
+  void error(exception, {StackTrace? stackTrace}) {
     if (!kReleaseMode) {
       dev.log('Exception: ${exception.toString()}');
       dev.log('StackTrace: ${stackTrace.toString()}');

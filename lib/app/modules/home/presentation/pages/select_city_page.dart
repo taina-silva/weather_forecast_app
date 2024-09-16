@@ -8,8 +8,8 @@ import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffol
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/location_text_field.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/stores/home_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/location/location_text_field.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 class SelectCityPage extends StatefulWidget {
   const SelectCityPage({super.key});
@@ -19,7 +19,7 @@ class SelectCityPage extends StatefulWidget {
 }
 
 class _SelectCityPageState extends State<SelectCityPage> {
-  final homeStore = Modular.get<HomeStore>();
+  final locationStore = Modular.get<LocationStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,9 @@ class _SelectCityPageState extends State<SelectCityPage> {
         return CustomAppBar(
           title: Right(
             LocationTextField<String>(
-              selectedLocation: homeStore.selectedCity,
-              onClear: () => {homeStore.setSelectedCity(null)},
-              getLocations: homeStore.getCities,
+              selectedLocation: locationStore.selectedCity,
+              onClear: () => {locationStore.setSelectedCity(null)},
+              getLocations: locationStore.getCities,
               locationAsStr: (city) => city,
               labelText: 'City',
             ),
@@ -57,19 +57,19 @@ class _SelectCityPageState extends State<SelectCityPage> {
                     vertical: Space.normal,
                     horizontal: Space.small,
                   ),
-                  itemCount: homeStore.cities.length,
+                  itemCount: locationStore.cities.length,
                   itemBuilder: (context, index) {
-                    final city = homeStore.cities[index];
+                    final city = locationStore.cities[index];
 
                     return GestureDetector(
                       onTap: () {
-                        homeStore.setSelectedCity(city);
-                        Modular.to.pop();
+                        locationStore.setSelectedCity(city);
+                        Modular.to.pop(true);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(Space.nano),
                         decoration: BoxDecoration(
-                          color: AppColors.primaryBackground,
+                          color: AppColors.background,
                           border: const Border(
                             bottom: BorderSide(
                               color: AppColors.neutral200,
@@ -77,7 +77,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
                             ),
                           ),
                           borderRadius: BorderRadius.circular(Layout.borderRadiusSmall),
-                          boxShadow: [Layout.boxShadow],
+                          boxShadow: [Layout.boxShadow(AppColors.neutral100)],
                         ),
                         child: CustomText(
                           text: city,

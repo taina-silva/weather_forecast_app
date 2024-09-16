@@ -20,7 +20,7 @@ class CustomText extends StatelessWidget {
     required this.text,
     required this.textType,
     this.fWeight = FWeight.regular,
-    this.color = AppColors.neutral900,
+    this.color = AppColors.neutral600,
     this.maxLines,
     this.textAlign = TextAlign.start,
     this.textOverflow = TextOverflow.visible,

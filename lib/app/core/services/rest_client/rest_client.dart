@@ -23,6 +23,10 @@ class RestClientImpl implements RestClient {
   RestClientImpl._singleton();
   static final RestClientImpl instance = RestClientImpl._singleton();
 
+  factory RestClientImpl() {
+    return instance;
+  }
+
   static final Dio dio = Dio(
     BaseOptions(
       baseUrl: EnvVars.weatherApiUrl,

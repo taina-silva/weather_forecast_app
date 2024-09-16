@@ -16,7 +16,7 @@ class AppModule extends Module {
     i.addLazySingleton<LoggerService>(LoggerServiceImpl.new);
 
     // RestClient
-    i.addLazySingleton<RestClient>((_) => RestClientImpl.instance);
+    i.addLazySingleton<RestClient>(RestClientImpl.new);
 
     // Network
     i.add<Connectivity>(Connectivity.new);

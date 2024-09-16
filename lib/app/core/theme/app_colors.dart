@@ -3,27 +3,20 @@ import 'package:flutter/material.dart';
 class AppColors {
   const AppColors();
 
-  static const primaryBackground = Color.fromRGBO(248, 248, 248, 1);
-  static const secondaryBackground = Color.fromRGBO(251, 246, 241, 1);
+  static const background = Color.fromRGBO(248, 248, 248, 1);
 
-  static const primaryBlue = Color.fromRGBO(51, 110, 190, 1);
-  static const primaryOrange = Color.fromRGBO(236, 120, 29, 1);
-  static const primaryYellow = Color.fromRGBO(215, 196, 21, 1);
+  static const mainBlue = Color.fromRGBO(51, 110, 190, 1);
+  static const lightBlue = Color.fromRGBO(221, 227, 235, 1);
+  static const mainOrange = Color.fromRGBO(236, 120, 29, 1);
+  static const mainYellow = Color.fromRGBO(215, 196, 21, 1);
 
   static const neutral0 = Color.fromRGBO(255, 255, 255, 1);
-  static const neutral100 = Color.fromRGBO(250, 250, 250, 1);
-  static const neutral200 = Color.fromRGBO(242, 242, 242, 1);
-  static const neutral250 = Color.fromRGBO(243, 245, 247, 1);
-  static const neutral300 = Color.fromRGBO(239, 239, 239, 1);
-  static const neutral350 = Color.fromRGBO(229, 229, 232, 1);
-  static const neutral400 = Color.fromRGBO(209, 209, 209, 1);
-  static const neutral500 = Color.fromRGBO(182, 182, 182, 1);
-  static const neutral550 = Color.fromRGBO(160, 160, 160, 1);
-  static const neutral600 = Color.fromRGBO(148, 148, 148, 1);
-  static const neutral650 = Color.fromRGBO(136, 136, 136, 1);
-  static const neutral700 = Color.fromRGBO(104, 104, 104, 1);
-  static const neutral800 = Color.fromRGBO(53, 53, 53, 1);
-  static const neutral900 = Color.fromRGBO(0, 0, 0, 1);
+  static const neutral100 = Color.fromRGBO(202, 202, 202, 1);
+  static const neutral200 = Color.fromRGBO(182, 182, 182, 1);
+  static const neutral300 = Color.fromRGBO(148, 148, 148, 1);
+  static const neutral400 = Color.fromRGBO(104, 104, 104, 1);
+  static const neutral500 = Color.fromRGBO(53, 53, 53, 1);
+  static const neutral600 = Color.fromRGBO(0, 0, 0, 1);
 
   static const error100 = Color.fromRGBO(212, 170, 168, 1);
   static const error200 = Color.fromRGBO(195, 125, 125, 1);

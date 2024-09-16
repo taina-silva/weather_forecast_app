@@ -29,10 +29,9 @@ class _LocationTextFieldState<T> extends State<LocationTextField<T>> {
     super.initState();
 
     if (widget.selectedLocation != null) {
-      final str = widget.locationAsStr(widget.selectedLocation as T);
-
-      widget.getLocations(str);
-      _controller.text = str;
+      final location = widget.locationAsStr(widget.selectedLocation as T);
+      widget.getLocations(location);
+      _controller.text = location;
     }
   }
 
@@ -46,7 +45,7 @@ class _LocationTextFieldState<T> extends State<LocationTextField<T>> {
         labelText: widget.labelText,
         labelStyle: const TextStyle(color: AppColors.neutral0),
         hintText: 'Type to search',
-        hintStyle: const TextStyle(color: AppColors.neutral400),
+        hintStyle: const TextStyle(color: AppColors.neutral200),
         border: InputBorder.none,
         suffixIcon: GestureDetector(
           onTap: () {

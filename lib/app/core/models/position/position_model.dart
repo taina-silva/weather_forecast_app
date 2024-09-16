@@ -11,4 +11,11 @@ class PositionModel extends Equatable {
 
   @override
   List<Object> get props => [latitude, longitude];
+
+  factory PositionModel.fromMap(Map<String, dynamic> map) {
+    return PositionModel(
+      latitude: map['lat'],
+      longitude: map['lon'],
+    );
+  }
 }

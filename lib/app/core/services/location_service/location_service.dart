@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:tuple/tuple.dart';
-import 'package:weather_forecast_app/app/core/services/location_service/models/position_model.dart';
+import 'package:weather_forecast_app/app/core/models/location/location_model.dart';
+import 'package:weather_forecast_app/app/core/models/position/position_model.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 
 enum LocationServiceStatus { enabled, disabled }
@@ -57,7 +57,7 @@ class LocationService {
         return LocationPermissionStatus.denied;
       }
     } catch (error, stackTrace) {
-      _loggerService.logError('Error handling location permission: $error', stackTrace: stackTrace);
+      _loggerService.error('Error handling location permission: $error', stackTrace: stackTrace);
       return LocationPermissionStatus.denied;
     }
   }
@@ -73,22 +73,22 @@ class LocationService {
       if (error is PermissionDeniedException) {
         requestPermission();
       } else {
-        _loggerService.logError('Error getting current location: $error', stackTrace: stackTrace);
+        _loggerService.error('Error getting current location: $error', stackTrace: stackTrace);
       }
     }
 
     return null;
   }
 
-  Future<Tuple2<String, String>?> getLocationFromPosition(PositionModel position) async {
+  Future<LocationModel?> getLocationFromPosition(PositionModel position) async {
     try {
       final placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
       if (placemarks.isEmpty) return null;
 
-      return Tuple2(placemarks.first.subAdministrativeArea ?? '', placemarks.first.country ?? '');
+      return LocationModel(
+          city: placemarks.first.subAdministrativeArea, country: placemarks.first.country);
     } catch (error, stackTrace) {
-      _loggerService.logError('Error getting city name from location: $error',
-          stackTrace: stackTrace);
+      _loggerService.error('Error getting city name from location: $error', stackTrace: stackTrace);
     }
 
     return null;

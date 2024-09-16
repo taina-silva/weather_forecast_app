@@ -6,10 +6,10 @@ import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
 import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
-import 'package:weather_forecast_app/app/core/services/countries_service/models/country_model.dart';
+import 'package:weather_forecast_app/app/core/models/country/country_model.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/location_text_field.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/stores/home_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/location/location_text_field.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 class SelectCountryPage extends StatefulWidget {
   const SelectCountryPage({super.key});
@@ -19,7 +19,7 @@ class SelectCountryPage extends StatefulWidget {
 }
 
 class _SelectCountryPageState extends State<SelectCountryPage> {
-  final homeStore = Modular.get<HomeStore>();
+  final locationStore = Modular.get<LocationStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       appBar: CustomAppBar(
         title: Right(
           LocationTextField<CountryModel>(
-            selectedLocation: homeStore.selectedCountry,
-            onClear: () => homeStore.setSelectedCountry(null),
-            getLocations: homeStore.getCountries,
+            selectedLocation: locationStore.selectedCountry,
+            onClear: () => locationStore.setSelectedCountry(null),
+            getLocations: locationStore.getCountries,
             locationAsStr: (country) => country.name,
             labelText: 'Country',
           ),
@@ -53,7 +53,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   itemBuilder: (context, index) {
-                    final country = homeStore.countries[index];
+                    final country = locationStore.countries[index];
 
                     return ListTile(
                       title: CustomText(
@@ -61,12 +61,12 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                         textType: TextType.small,
                       ),
                       onTap: () {
-                        homeStore.setSelectedCountry(country);
+                        locationStore.setSelectedCountry(country);
                         Modular.to.pop(true);
                       },
                     );
                   },
-                  itemCount: homeStore.countries.length,
+                  itemCount: locationStore.countries.length,
                 ),
               ),
               const SizedBox(height: 2.5 * Space.big),

@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
 
-    changeStatusBarTheme(StatusBarTheme.light, AppColors.primaryBackground);
+    changeStatusBarTheme(StatusBarTheme.light, AppColors.background);
 
     _controller = AnimationController(
       vsync: this,
@@ -52,15 +52,17 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            ScaleTransition(
-              scale: _animation,
-              child: Image.asset(
-                Assets.logo,
-                height: MediaQuery.of(context).size.width * 0.7,
-                width: MediaQuery.of(context).size.width * 0.7,
+            Align(
+              alignment: Alignment.center,
+              child: ScaleTransition(
+                scale: _animation,
+                child: Image.asset(
+                  Assets.logo,
+                  height: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                ),
               ),
             ),
           ],

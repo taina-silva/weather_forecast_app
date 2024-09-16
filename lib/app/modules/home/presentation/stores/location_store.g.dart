@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_store.dart';
+part of 'location_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,41 +8,41 @@ part of 'home_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$HomeStore on HomeStoreBase, Store {
+mixin _$LocationStore on LocationStoreBase, Store {
   late final _$getCountriesStateAtom =
-      Atom(name: 'HomeStoreBase.getCountriesState', context: context);
+      Atom(name: 'LocationStoreBase.getCountriesState', context: context);
 
   @override
-  GetCountriesState get getCountriesState {
+  GetLocationsState get getCountriesState {
     _$getCountriesStateAtom.reportRead();
     return super.getCountriesState;
   }
 
   @override
-  set getCountriesState(GetCountriesState value) {
+  set getCountriesState(GetLocationsState value) {
     _$getCountriesStateAtom.reportWrite(value, super.getCountriesState, () {
       super.getCountriesState = value;
     });
   }
 
   late final _$getCitiesStateAtom =
-      Atom(name: 'HomeStoreBase.getCitiesState', context: context);
+      Atom(name: 'LocationStoreBase.getCitiesState', context: context);
 
   @override
-  GetCitiesState get getCitiesState {
+  GetLocationsState get getCitiesState {
     _$getCitiesStateAtom.reportRead();
     return super.getCitiesState;
   }
 
   @override
-  set getCitiesState(GetCitiesState value) {
+  set getCitiesState(GetLocationsState value) {
     _$getCitiesStateAtom.reportWrite(value, super.getCitiesState, () {
       super.getCitiesState = value;
     });
   }
 
   late final _$countriesAtom =
-      Atom(name: 'HomeStoreBase.countries', context: context);
+      Atom(name: 'LocationStoreBase.countries', context: context);
 
   @override
   List<CountryModel> get countries {
@@ -58,7 +58,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   late final _$citiesAtom =
-      Atom(name: 'HomeStoreBase.cities', context: context);
+      Atom(name: 'LocationStoreBase.cities', context: context);
 
   @override
   List<String> get cities {
@@ -74,7 +74,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   late final _$_selectedCountryAtom =
-      Atom(name: 'HomeStoreBase._selectedCountry', context: context);
+      Atom(name: 'LocationStoreBase._selectedCountry', context: context);
 
   CountryModel? get selectedCountry {
     _$_selectedCountryAtom.reportRead();
@@ -92,7 +92,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   late final _$_selectedCityAtom =
-      Atom(name: 'HomeStoreBase._selectedCity', context: context);
+      Atom(name: 'LocationStoreBase._selectedCity', context: context);
 
   String? get selectedCity {
     _$_selectedCityAtom.reportRead();
@@ -110,7 +110,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   late final _$getCountriesAsyncAction =
-      AsyncAction('HomeStoreBase.getCountries', context: context);
+      AsyncAction('LocationStoreBase.getCountries', context: context);
 
   @override
   Future<List<CountryModel>> getCountries(String? search) {
@@ -118,35 +118,35 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   late final _$getCitiesAsyncAction =
-      AsyncAction('HomeStoreBase.getCities', context: context);
+      AsyncAction('LocationStoreBase.getCities', context: context);
 
   @override
   Future<List<String>> getCities(String? search) {
     return _$getCitiesAsyncAction.run(() => super.getCities(search));
   }
 
-  late final _$HomeStoreBaseActionController =
-      ActionController(name: 'HomeStoreBase', context: context);
+  late final _$LocationStoreBaseActionController =
+      ActionController(name: 'LocationStoreBase', context: context);
 
   @override
   void setSelectedCountry(CountryModel? country) {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.setSelectedCountry');
+    final _$actionInfo = _$LocationStoreBaseActionController.startAction(
+        name: 'LocationStoreBase.setSelectedCountry');
     try {
       return super.setSelectedCountry(country);
     } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+      _$LocationStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setSelectedCity(String? city) {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.setSelectedCity');
+    final _$actionInfo = _$LocationStoreBaseActionController.startAction(
+        name: 'LocationStoreBase.setSelectedCity');
     try {
       return super.setSelectedCity(city);
     } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+      _$LocationStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

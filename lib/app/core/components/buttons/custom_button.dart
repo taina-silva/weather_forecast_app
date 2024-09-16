@@ -99,14 +99,14 @@ class CustomButton extends StatelessWidget {
   Color get _backgroundColor {
     switch (type) {
       case ButtonType.primaryBlue:
-        if (params.isDisabled) return AppColors.neutral300;
-        return AppColors.primaryBlue;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainBlue;
       case ButtonType.primaryOrange:
-        if (params.isDisabled) return AppColors.neutral300;
-        return AppColors.primaryOrange;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainOrange;
       case ButtonType.primaryYellow:
-        if (params.isDisabled) return AppColors.neutral300;
-        return AppColors.primaryYellow;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainYellow;
 
       case ButtonType.secondaryBlue || ButtonType.secondaryOrange || ButtonType.secondaryYellow:
         return AppColors.neutral0;
@@ -118,31 +118,31 @@ class CustomButton extends StatelessWidget {
       case ButtonType.primaryBlue || ButtonType.primaryOrange || ButtonType.primaryYellow:
         return Colors.transparent;
       case ButtonType.secondaryBlue:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryBlue;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainBlue;
       case ButtonType.secondaryOrange:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryOrange;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainOrange;
       case ButtonType.secondaryYellow:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryYellow;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainYellow;
     }
   }
 
   Color get _contentColor {
     switch (type) {
       case ButtonType.primaryBlue || ButtonType.primaryOrange || ButtonType.primaryYellow:
-        if (params.isDisabled) return AppColors.neutral700;
+        if (params.isDisabled) return AppColors.neutral400;
         return AppColors.neutral0;
       case ButtonType.secondaryBlue:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryBlue;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainBlue;
       case ButtonType.secondaryOrange:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryOrange;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainOrange;
       case ButtonType.secondaryYellow:
-        if (params.isDisabled) return AppColors.neutral500;
-        return AppColors.primaryYellow;
+        if (params.isDisabled) return AppColors.neutral200;
+        return AppColors.mainYellow;
     }
   }
 }

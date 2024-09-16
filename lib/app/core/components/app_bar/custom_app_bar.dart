@@ -29,8 +29,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? AppColors.primaryBlue,
-        boxShadow: [Layout.boxShadow],
+        color: widget.backgroundColor ?? AppColors.mainBlue,
+        boxShadow: [Layout.boxShadow(AppColors.mainBlue)],
         borderRadius: const BorderRadius.vertical(
           bottom: Radius.circular(Layout.borderRadiusMedium),
         ),
@@ -87,7 +87,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         onTap: () => Modular.to.pop(),
         child: const Icon(
           Icons.keyboard_arrow_left,
-          color: AppColors.neutral900,
+          color: AppColors.neutral600,
           size: Layout.appBarLeadingAndTrailingWidth,
           semanticLabel: 'Voltar para a página anterior',
         ),

@@ -3,16 +3,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
 import 'package:weather_forecast_app/app/core/routes/animated_route.dart';
+import 'package:weather_forecast_app/app/core/routes/app_routes.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/pages/select_city_page.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/pages/select_country_page.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/stores/home_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 void showLocationBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
-    backgroundColor: AppColors.primaryBlue,
+    backgroundColor: AppColors.mainBlue,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(Layout.borderRadiusMedium),
     ),
@@ -25,7 +26,13 @@ class LocationBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeStore = Modular.get<HomeStore>();
+    final locationStore = Modular.get<LocationStore>();
+
+    Future<void> navigateToSelectCityPage() async {
+      final result = await Modular.to
+          .push(slideRoute((context, animation, secondaryAnimation) => const SelectCityPage()));
+      if (result == true) Modular.to.popUntil(ModalRoute.withName(AppRoutes.home));
+    }
 
     return Observer(builder: (context) {
       return SingleChildScrollView(
@@ -39,31 +46,26 @@ class LocationBottomSheet extends StatelessWidget {
             children: [
               CustomButton(
                 ButtonParameters(
-                  text: homeStore.selectedCountry?.name ?? 'Select a country',
+                  text: locationStore.selectedCountry?.name ?? 'Select a country',
                   onTap: () async {
                     final result = await Modular.to.push(slideRoute(
                         (context, animation, secondaryAnimation) => const SelectCountryPage()));
-
-                    if (result == true) {
-                      Modular.to.push(slideRoute(
-                          (context, animation, secondaryAnimation) => const SelectCityPage()));
-                    }
+                    if (result == true) await navigateToSelectCityPage();
                   },
                   suffixIcon: Icons.edit_outlined,
                 ),
-                homeStore.selectedCountry == null
+                locationStore.selectedCountry == null
                     ? ButtonType.secondaryOrange
                     : ButtonType.secondaryBlue,
               ),
               const SizedBox(height: Space.small),
               CustomButton(
                 ButtonParameters(
-                  text: homeStore.selectedCity ?? 'Select a city',
-                  onTap: () => Modular.to.push(slideRoute(
-                      (context, animation, secondaryAnimation) => const SelectCityPage())),
+                  text: locationStore.selectedCity ?? 'Select a city',
+                  onTap: () async => await navigateToSelectCityPage(),
                   suffixIcon: Icons.edit_outlined,
                 ),
-                homeStore.selectedCity == null
+                locationStore.selectedCity == null
                     ? ButtonType.secondaryOrange
                     : ButtonType.secondaryBlue,
               ),

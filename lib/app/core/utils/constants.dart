@@ -1,7 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
+
+abstract class Api {
+  static const String weatherDailyParams =
+      'temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_probability_max,precipitation_probability_min,precipitation_probability_mean,wind_speed_10m_max,et0_fao_evapotranspiration';
+}
 
 abstract class Layout {
   static const double borderRadiusNano = 4;
@@ -15,12 +19,12 @@ abstract class Layout {
 
   static const double bottomNavBarSize = 60;
 
-  static BoxShadow boxShadow = BoxShadow(
-    color: AppColors.primaryBlue.withOpacity(0.5),
-    spreadRadius: 0.5,
-    blurRadius: 0.5,
-    offset: const Offset(0, 0.5),
-  );
+  static BoxShadow boxShadow(Color color) => BoxShadow(
+        color: color.withOpacity(0.5),
+        spreadRadius: 0.5,
+        blurRadius: 0.5,
+        offset: const Offset(0, 0.5),
+      );
 
   static double bottomPadding(BuildContext context) =>
       max(24, MediaQuery.of(context).padding.bottom);
@@ -52,5 +56,6 @@ abstract class Space {
 abstract class Assets {
   static const String logo = 'assets/logo/logo.png';
   static const String icons = 'assets/icons';
+  static const String images = 'assets/images';
   static const String jsons = 'assets/jsons';
 }

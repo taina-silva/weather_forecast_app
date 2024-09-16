@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
-import 'package:weather_forecast_app/app/core/services/countries_service/models/country_model.dart';
+import 'package:weather_forecast_app/app/core/models/country/country_model.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/core/utils/strings.dart';
@@ -31,7 +31,7 @@ abstract class CountriesServiceBase with Store {
 
       countries = list.asObservable();
     } catch (error, stackTrace) {
-      _loggerService.logError('Error fetching countries: $error', stackTrace: stackTrace);
+      _loggerService.error('Error fetching countries: $error', stackTrace: stackTrace);
       rethrow;
     }
   }

@@ -20,6 +20,8 @@ class NetworkService {
 
   NetworkStatus networkStatus = NetworkStatus.disconnected;
 
+  bool get isConnected => networkStatus == NetworkStatus.connected;
+
   void _init() {
     _connectivity.onConnectivityChanged.listen(
       (List<ConnectivityResult> result) {
