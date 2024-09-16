@@ -17,8 +17,8 @@ import 'package:weather_forecast_app/app/modules/home/presentation/components/bo
 import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/first_card_weather_forecast.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/second_card_weather_forecast.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/third_card_weather_forecast.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/date/date_widget.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/general/favorite_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/date_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/favorite_widget.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/favorite_locations_store.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/favorite_locations_states.dart';
