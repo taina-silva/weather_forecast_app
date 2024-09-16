@@ -3,14 +3,19 @@ import 'package:weather_forecast_app/app/core/services/logger/logger_service.dar
 
 enum NetworkStatus { connected, disconnected }
 
-class NetworkService {
-  NetworkService._singleton();
-  static final NetworkService instance = NetworkService._singleton();
+abstract class NetworkService {
+  NetworkStatus networkStatus = NetworkStatus.disconnected;
+  bool get isConnected;
+}
+
+class NetworkServiceImpl implements NetworkService {
+  NetworkServiceImpl._singleton();
+  static final NetworkServiceImpl instance = NetworkServiceImpl._singleton();
 
   late Connectivity _connectivity;
   late LoggerService _loggerService;
 
-  factory NetworkService(Connectivity connectivity, LoggerService loggerService) {
+  factory NetworkServiceImpl(Connectivity connectivity, LoggerService loggerService) {
     instance._connectivity = connectivity;
     instance._loggerService = loggerService;
     instance._init();
@@ -18,8 +23,10 @@ class NetworkService {
     return instance;
   }
 
+  @override
   NetworkStatus networkStatus = NetworkStatus.disconnected;
 
+  @override
   bool get isConnected => networkStatus == NetworkStatus.connected;
 
   void _init() {

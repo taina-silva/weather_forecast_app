@@ -29,7 +29,7 @@ class WeatherForecastModel extends Equatable {
         daily,
       ];
 
-  factory WeatherForecastModel.fromMap(Map<String, dynamic> map) {
+  factory WeatherForecastModel.fromRemoteMap(Map<String, dynamic> map) {
     final dailyMap = map['daily'] as Map<String, dynamic>?;
     final days = List<String>.from(dailyMap?['time'] ?? []);
     final dailyUnits = map['daily_units'] as Map<String, dynamic>;
@@ -80,5 +80,28 @@ class WeatherForecastModel extends Equatable {
       elevation: map['elevation'],
       daily: daily,
     );
+  }
+
+  factory WeatherForecastModel.fromLocalMap(Map<String, dynamic> map) {
+    return WeatherForecastModel(
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      timezone: map['timezone'],
+      timezoneAbbreviation: map['timezoneAbbreviation'],
+      elevation: map['elevation'],
+      daily: List<DailyWeatherForecastModel>.from(
+          map['daily']?.map((x) => DailyWeatherForecastModel.fromMap(x)) ?? []),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'timezone': timezone,
+      'timezoneAbbreviation': timezoneAbbreviation,
+      'elevation': elevation,
+      'daily': daily.map((x) => x.toMap()).toList(),
+    };
   }
 }

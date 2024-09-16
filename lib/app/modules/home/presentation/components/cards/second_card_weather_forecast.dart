@@ -4,8 +4,8 @@ import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/models/weather_forecast/daily_weather_forecast_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/column_weather_property_widget.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/row_weather_property_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/structure/column_weather_property_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/structure/row_weather_property_widget.dart';
 
 class SecondCardWeatherForecast extends StatelessWidget {
   final DailyWeatherForecastModel item;
@@ -42,7 +42,7 @@ class SecondCardWeatherForecast extends StatelessWidget {
                 label: const Tuple2('Mix Apparent Temperature: ', AppColors.neutral100),
                 property: Tuple3(item.apparentMinTemperature, AppColors.neutral600, TextType.small),
               ),
-              const Divider(color: AppColors.neutral100, height: Space.big, thickness: 1),
+              const Divider(color: AppColors.neutral100, height: Space.large, thickness: 1),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

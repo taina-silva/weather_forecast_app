@@ -1,26 +1,54 @@
-import 'package:equatable/equatable.dart';
-
-class FetchPositionFromCityException extends Equatable implements Exception {
+class FetchPositionFromLocationException implements Exception {
   final String? message;
 
-  const FetchPositionFromCityException({this.message = 'Error fetching position from city'});
+  const FetchPositionFromLocationException({this.message = 'Error fetching position from city'});
 
   @override
-  List<Object?> get props => [message];
-
-  @override
-  bool get stringify => true;
+  String toString() => 'FetchPositionFromCityException(message: $message)';
 }
 
-
-class FetchWeatherException extends Equatable implements Exception {
+class FetchWeatherException implements Exception {
   final String? message;
 
   const FetchWeatherException({this.message = 'Error fetching weather'});
 
   @override
-  List<Object?> get props => [message];
+  String toString() => 'FetchWeatherException(message: $message)';
+}
+
+class FetchFavoriteLocationsException implements Exception {
+  final String? message;
+
+  const FetchFavoriteLocationsException({this.message = 'Error fetching favorite locations'});
 
   @override
-  bool get stringify => true;
+  String toString() => 'FetchFavoriteLocationsException(message: $message)';
+}
+
+class FetchFavoriteLocationDetailedException implements Exception {
+  final String? message;
+
+  const FetchFavoriteLocationDetailedException(
+      {this.message = 'Error fetching favorite location detailed'});
+
+  @override
+  String toString() => 'FetchFavoriteLocationDetailedException(message: $message)';
+}
+
+class AddFavoriteLocationException implements Exception {
+  final String? message;
+
+  const AddFavoriteLocationException({this.message = 'Error adding favorite location'});
+
+  @override
+  String toString() => 'AddFavoriteLocationException(message: $message)';
+}
+
+class RemoveFavoriteLocationException implements Exception {
+  final String? message;
+
+  const RemoveFavoriteLocationException({this.message = 'Error removing favorite location'});
+
+  @override
+  String toString() => 'RemoveFavoriteLocationException(message: $message)';
 }

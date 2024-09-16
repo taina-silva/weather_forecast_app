@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class LocationModel extends Equatable {
-  final String? city;
-  final String? country;
+  final String city;
+  final String country;
 
   const LocationModel({
     required this.city,

@@ -113,7 +113,7 @@ mixin _$LocationStore on LocationStoreBase, Store {
       AsyncAction('LocationStoreBase.getCountries', context: context);
 
   @override
-  Future<List<CountryModel>> getCountries(String? search) {
+  Future<void> getCountries(String? search) {
     return _$getCountriesAsyncAction.run(() => super.getCountries(search));
   }
 
@@ -121,7 +121,7 @@ mixin _$LocationStore on LocationStoreBase, Store {
       AsyncAction('LocationStoreBase.getCities', context: context);
 
   @override
-  Future<List<String>> getCities(String? search) {
+  Future<void> getCities(String? search) {
     return _$getCitiesAsyncAction.run(() => super.getCities(search));
   }
 

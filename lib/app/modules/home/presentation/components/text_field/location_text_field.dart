@@ -4,7 +4,7 @@ import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 class LocationTextField<T> extends StatefulWidget {
   final T? selectedLocation;
   final void Function() onClear;
-  final Future<List<T>> Function(String?) getLocations;
+  final Future<void> Function(String?) getLocations;
   final String Function(T) locationAsStr;
   final String labelText;
 

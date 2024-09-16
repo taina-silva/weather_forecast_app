@@ -1,12 +1,14 @@
 import 'package:weather_forecast_app/app/core/errors/failures.dart';
+import 'package:weather_forecast_app/app/core/models/location/location_model.dart';
 import 'package:weather_forecast_app/app/core/models/position/position_model.dart';
 
-class FetchPositionFromCityFailure extends Failure {
-  final String city;
+class FetchPositionFromLocationFailure extends Failure {
+  final LocationModel? location;
 
-  const FetchPositionFromCityFailure([
-    this.city = '',
-  ]) : super('Error fetching position from city: $city');
+  FetchPositionFromLocationFailure([
+    this.location,
+  ]) : super(
+            'Error fetching position from location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
 
   @override
   List<Object> get props => [message];
@@ -18,7 +20,49 @@ class FetchWeatherFailure extends Failure {
   FetchWeatherFailure([
     this.position,
   ]) : super(
-            'Error fetching weather for position - lat:${position?.latitude}, long:${position?.longitude}');
+            'Error fetching weather from position${position != null ? ' - city: ${position.latitude}, country: ${position.longitude}' : '!'}');
+
+  @override
+  List<Object> get props => [message];
+}
+
+class FetchFavoriteLocationsFailure extends Failure {
+  const FetchFavoriteLocationsFailure([
+    super.message = 'Error fetching favorite locations',
+  ]);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class FetchFavoriteLocationDetailedFailure extends Failure {
+  final LocationModel? location;
+
+  FetchFavoriteLocationDetailedFailure({this.location})
+      : super(
+            'Error fetching favorite location detailed${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+
+  @override
+  List<Object> get props => [message];
+}
+
+class AddFavoriteLocationFailure extends Failure {
+  final LocationModel? location;
+
+  AddFavoriteLocationFailure({this.location})
+      : super(
+            'Error adding favorite location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+
+  @override
+  List<Object> get props => [message];
+}
+
+class RemoveFavoriteLocationFailure extends Failure {
+  final LocationModel? location;
+
+  RemoveFavoriteLocationFailure({this.location})
+      : super(
+            'Error removing favorite location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
 
   @override
   List<Object> get props => [message];

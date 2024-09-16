@@ -1,7 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:weather_forecast_app/app/core/routes/app_routes.dart';
 import 'package:weather_forecast_app/app/core/services/countries_service/countries_service.dart';
+import 'package:weather_forecast_app/app/core/services/local_storage/local_storage.dart';
 import 'package:weather_forecast_app/app/core/services/location_service/location_service.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
 import 'package:weather_forecast_app/app/core/services/network_service/network_service.dart';
@@ -20,13 +22,17 @@ class AppModule extends Module {
 
     // Network
     i.add<Connectivity>(Connectivity.new);
-    i.addSingleton<NetworkService>(NetworkService.new);
+    i.addSingleton<NetworkService>(NetworkServiceImpl.new);
 
     // Countries
-    i.addLazySingleton<CountriesService>(CountriesService.new);
+    i.addLazySingleton<CountriesService>(CountriesServiceImpl.new);
 
     // Location
-    i.addSingleton<LocationService>(LocationService.new);
+    i.addSingleton<LocationService>(LocationServiceImpl.new);
+
+    // Local Storage
+    i.add<FlutterSecureStorage>(FlutterSecureStorage.new);
+    i.addLazySingleton<LocalStorage>(LocalStorageImpl.new);
   }
 
   @override

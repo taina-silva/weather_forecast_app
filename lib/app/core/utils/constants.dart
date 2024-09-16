@@ -11,7 +11,7 @@ abstract class Layout {
   static const double borderRadiusNano = 4;
   static const double borderRadiusSmall = 8;
   static const double borderRadiusMedium = 16;
-  static const double borderRadiusBig = 100;
+  static const double borderRadiusLarge = 100;
 
   static const double appBarSize = 72;
   static const double appBarTrailingHeight = 52;
@@ -49,8 +49,8 @@ abstract class FWeight {
 abstract class Space {
   static const double nano = 8;
   static const double small = 16;
-  static const double normal = 24;
-  static const double big = 32;
+  static const double medium = 24;
+  static const double large = 32;
 }
 
 abstract class Assets {

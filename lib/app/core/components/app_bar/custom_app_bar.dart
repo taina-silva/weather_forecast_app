@@ -30,7 +30,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return Container(
       width: double.infinity,
       height: Layout.appBarSize,
-      padding: const EdgeInsets.symmetric(horizontal: Space.normal),
+      padding: const EdgeInsets.symmetric(horizontal: Space.medium),
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? AppColors.mainBlue,
         boxShadow: [Layout.boxShadow(AppColors.mainBlue)],

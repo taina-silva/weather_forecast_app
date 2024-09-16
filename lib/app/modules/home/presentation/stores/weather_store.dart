@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:weather_forecast_app/app/core/errors/failures.dart';
+import 'package:weather_forecast_app/app/core/models/location/location_model.dart';
 import 'package:weather_forecast_app/app/modules/home/infra/repositories/fetch_weather_repository.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/weather_states.dart';
 
@@ -16,10 +17,10 @@ abstract class WeatherStoreBase with Store {
   GetWeatherState state = GetWeatherInitialState();
 
   @action
-  Future<void> fetchWeather(String city) async {
+  Future<void> fetchWeather(LocationModel location) async {
     state = GetWeatherLoadingState();
 
-    final result = await _repository.fetchWeather(city);
+    final result = await _repository.fetchWeather(location);
 
     result.fold(
       (failure) {

@@ -19,7 +19,7 @@ class GetWeatherErrorState extends GeneralErrorState<WeatherForecastModel>
   GetWeatherErrorState(this.message) : super(message);
 }
 
-class GetWeatherSuccessState extends GeneralSuccessState<WeatherForecastModel>
+class GetWeatherSuccessState extends GeneralSuccessWithDataState<WeatherForecastModel>
     implements GetWeatherState {
   final WeatherForecastModel weatherForecast;
   GetWeatherSuccessState(this.weatherForecast) : super(weatherForecast);

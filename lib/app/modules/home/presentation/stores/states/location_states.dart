@@ -1,14 +1,15 @@
 import 'package:weather_forecast_app/app/core/states/general_state.dart';
 
-sealed class GetLocationsState extends GeneralState {}
+class GetLocationsState extends GeneralState {}
 
-final class GetLocationsInitialState extends GetLocationsState {}
+class GetLocationsInitialState extends GeneralInitialState implements GetLocationsState {}
 
-final class GetLocationsLoadingState extends GetLocationsState {}
+class GetLocationsLoadingState extends GeneralLoadingState implements GetLocationsState {}
 
-final class GetLocationsSuccessState extends GetLocationsState {}
+class GetLocationsSuccessState extends GeneralSuccessState implements GetLocationsState {}
 
-final class GetLocationsErrorState extends GetLocationsState {
+class GetLocationsErrorState extends GeneralErrorState implements GetLocationsState {
+  @override
   final String message;
-  GetLocationsErrorState(this.message);
+  GetLocationsErrorState(this.message) : super(message);
 }

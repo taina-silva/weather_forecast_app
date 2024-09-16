@@ -7,20 +7,26 @@ abstract class GeneralState<T> extends Equatable {
   R when<R>({
     required R Function() initial,
     required R Function() loading,
-    required R Function() noConnection,
+    R Function()? noConnection,
     required R Function(String message) error,
-    required R Function(T data) success,
+    R Function()? success,
+    R Function(T data)? successWithData,
   }) {
     if (this is GeneralInitialState<T>) {
       return initial();
     } else if (this is GeneralLoadingState<T>) {
       return loading();
     } else if (this is GeneralNoConnectionState<T>) {
+      if (noConnection == null) throw Exception('No connection state not handled');
       return noConnection();
     } else if (this is GeneralErrorState<T>) {
       return error((this as GeneralErrorState<T>).message);
     } else if (this is GeneralSuccessState<T>) {
-      return success((this as GeneralSuccessState<T>).data);
+      if (success == null) throw Exception('Success state not handled');
+      return success();
+    } else if (this is GeneralSuccessWithDataState<T>) {
+      if (successWithData == null) throw Exception('Success with data state not handled');
+      return successWithData((this as GeneralSuccessWithDataState<T>).data);
     }
     throw Exception('Unknown state: $this');
   }
@@ -37,7 +43,9 @@ abstract class GeneralErrorState<T> extends GeneralState<T> {
   GeneralErrorState(this.message);
 }
 
-abstract class GeneralSuccessState<T> extends GeneralState<T> {
+abstract class GeneralSuccessState<T> extends GeneralState<T> {}
+
+abstract class GeneralSuccessWithDataState<T> extends GeneralState<T> {
   final T data;
-  GeneralSuccessState(this.data);
+  GeneralSuccessWithDataState(this.data);
 }

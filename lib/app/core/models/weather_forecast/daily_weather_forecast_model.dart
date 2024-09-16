@@ -51,4 +51,43 @@ class DailyWeatherForecastModel extends Equatable {
         winSpeedMax,
         evapotranspiration,
       ];
+
+  factory DailyWeatherForecastModel.fromMap(Map<String, dynamic> map) {
+    return DailyWeatherForecastModel(
+      date: map['date'],
+      maxTemperature: WeatherPropertyModel.fromMap(map['maxTemperature']),
+      minTemperature: WeatherPropertyModel.fromMap(map['minTemperature']),
+      apparentMaxTemperature: WeatherPropertyModel.fromMap(map['apparentMaxTemperature']),
+      apparentMinTemperature: WeatherPropertyModel.fromMap(map['apparentMinTemperature']),
+      precipationSum: WeatherPropertyModel.fromMap(map['precipationSum']),
+      rainSum: WeatherPropertyModel.fromMap(map['rainSum']),
+      showersSum: WeatherPropertyModel.fromMap(map['showersSum']),
+      snowfallSum: WeatherPropertyModel.fromMap(map['snowfallSum']),
+      precipitationProbabilityMax: WeatherPropertyModel.fromMap(map['precipitationProbabilityMax']),
+      precipitationProbabilityMin: WeatherPropertyModel.fromMap(map['precipitationProbabilityMin']),
+      precipitationProbabilityMean:
+          WeatherPropertyModel.fromMap(map['precipitationProbabilityMean']),
+      winSpeedMax: WeatherPropertyModel.fromMap(map['winSpeedMax']),
+      evapotranspiration: WeatherPropertyModel.fromMap(map['evapotranspiration']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': date,
+      'maxTemperature': maxTemperature.toMap(),
+      'minTemperature': minTemperature.toMap(),
+      'apparentMaxTemperature': apparentMaxTemperature.toMap(),
+      'apparentMinTemperature': apparentMinTemperature.toMap(),
+      'precipationSum': precipationSum.toMap(),
+      'rainSum': rainSum.toMap(),
+      'showersSum': showersSum.toMap(),
+      'snowfallSum': snowfallSum.toMap(),
+      'precipitationProbabilityMax': precipitationProbabilityMax.toMap(),
+      'precipitationProbabilityMin': precipitationProbabilityMin.toMap(),
+      'precipitationProbabilityMean': precipitationProbabilityMean.toMap(),
+      'winSpeedMax': winSpeedMax.toMap(),
+      'evapotranspiration': evapotranspiration.toMap(),
+    };
+  }
 }

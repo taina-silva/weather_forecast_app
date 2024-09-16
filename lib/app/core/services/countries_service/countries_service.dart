@@ -7,22 +7,22 @@ import 'package:weather_forecast_app/app/core/services/logger/logger_service.dar
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/core/utils/strings.dart';
 
-part 'countries_service.g.dart';
+abstract class CountriesService {
+  CountryModel? countryFromName(String name);
+  Future<List<CountryModel>> getCountries({String? search});
+  Future<List<String>> getCities(CountryModel country, {String? search});
+}
 
-class CountriesService = CountriesServiceBase with _$CountriesService;
-
-abstract class CountriesServiceBase with Store {
+class CountriesServiceImpl implements CountriesService {
   final LoggerService _loggerService;
   final String jsonPath = '${Assets.jsons}/locations.json';
 
-  CountriesServiceBase(this._loggerService) {
+  List<CountryModel> countries = [];
+
+  CountriesServiceImpl(this._loggerService) {
     _fetchCountries();
   }
 
-  @observable
-  List<CountryModel> countries = [];
-
-  @action
   Future<void> _fetchCountries() async {
     try {
       final jsonString = await rootBundle.loadString(jsonPath);
@@ -36,6 +36,7 @@ abstract class CountriesServiceBase with Store {
     }
   }
 
+  @override
   CountryModel? countryFromName(String name) {
     try {
       return countries.firstWhere(
@@ -45,6 +46,7 @@ abstract class CountriesServiceBase with Store {
     }
   }
 
+  @override
   Future<List<CountryModel>> getCountries({String? search}) async {
     try {
       String? text;
@@ -60,6 +62,7 @@ abstract class CountriesServiceBase with Store {
     }
   }
 
+  @override
   Future<List<String>> getCities(CountryModel country, {String? search}) async {
     try {
       String? text;

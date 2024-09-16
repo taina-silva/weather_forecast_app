@@ -8,7 +8,7 @@ import 'package:weather_forecast_app/app/core/components/structure/custom_scaffo
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/location/location_text_field.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/text_field/location_text_field.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 class SelectCityPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
         );
       }),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Space.normal),
+        padding: const EdgeInsets.symmetric(horizontal: Space.medium),
         child: CustomButton(
           ButtonParameters(
             text: 'Go back',
@@ -49,40 +49,42 @@ class _SelectCityPageState extends State<SelectCityPage> {
       ),
       body: Observer(
         builder: (context) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.zero,
-                  itemCount: locationStore.cities.length,
-                  itemBuilder: (context, index) {
-                    final city = locationStore.cities[index];
+          return locationStore.getCitiesState.when(
+            initial: () => const SizedBox(),
+            loading: () =>
+                const Center(child: CircularProgressIndicator(color: AppColors.mainBlue)),
+            error: (message) => CustomText(text: message, textType: TextType.medium),
+            success: () {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: Space.nano),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.only(top: Space.nano),
+                        itemCount: locationStore.cities.length,
+                        itemBuilder: (context, index) {
+                          final city = locationStore.cities[index];
 
-                    return GestureDetector(
-                      onTap: () {
-                        locationStore.setSelectedCity(city);
-                        Modular.to.pop(true);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: Space.small,
-                          horizontal: Space.normal,
-                        ),
-                        child: CustomText(
-                          text: city,
-                          textType: TextType.small,
-                        ),
+                          return ListTile(
+                            title: CustomText(
+                              text: city,
+                              textType: TextType.small,
+                            ),
+                            onTap: () {
+                              locationStore.setSelectedCity(city);
+                              Modular.to.pop(true);
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 0,
-                    color: AppColors.neutral100,
-                  ),
+                    ),
+                    const SizedBox(height: 2.5 * Space.large),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 2.5 * Space.big),
-            ],
+              );
+            },
           );
         },
       ),

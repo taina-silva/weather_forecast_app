@@ -5,7 +5,7 @@ import 'package:weather_forecast_app/app/core/enums/weather_condition.dart';
 import 'package:weather_forecast_app/app/core/models/weather_forecast/daily_weather_forecast_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/column_weather_property_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/structure/column_weather_property_widget.dart';
 
 class FirstCardWeatherForecast extends StatelessWidget {
   final DailyWeatherForecastModel item;

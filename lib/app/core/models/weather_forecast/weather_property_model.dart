@@ -12,10 +12,24 @@ class WeatherPropertyModel extends Equatable {
   @override
   List<Object?> get props => [value, unit];
 
+  factory WeatherPropertyModel.fromMap(Map<String, dynamic> map) {
+    return WeatherPropertyModel(
+      value: map['value'],
+      unit: map['unit'],
+    );
+  }
+
   factory WeatherPropertyModel.fromDynamic(dynamic value, String unit) {
     return WeatherPropertyModel(
       value: value.toString(),
       unit: unit,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'value': value,
+      'unit': unit,
+    };
   }
 }

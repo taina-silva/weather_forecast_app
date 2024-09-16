@@ -20,7 +20,7 @@ class TemporaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget divider =
-        const Divider(color: AppColors.mainYellow, height: 2 * Space.big, thickness: 1);
+        const Divider(color: AppColors.mainYellow, height: 2 * Space.large, thickness: 1);
 
     return Stack(
       children: [
@@ -39,10 +39,9 @@ class TemporaryWidget extends StatelessWidget {
         ),
         Align(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: Space.normal),
-            margin: const EdgeInsets.only(bottom: 4 * Space.big),
+            padding: const EdgeInsets.symmetric(horizontal: Space.medium),
+            margin: const EdgeInsets.only(top: 2 * Space.large),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
@@ -70,7 +69,7 @@ class TemporaryWidget extends StatelessWidget {
                   ),
                 ],
                 if (content != null) ...[
-                  const SizedBox(height: Space.normal),
+                  const SizedBox(height: Space.medium),
                   content!,
                 ],
                 divider,

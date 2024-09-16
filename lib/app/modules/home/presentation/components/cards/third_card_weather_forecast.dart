@@ -5,7 +5,7 @@ import 'package:weather_forecast_app/app/core/models/weather_forecast/daily_weat
 import 'package:weather_forecast_app/app/core/models/weather_forecast/weather_property_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/column_weather_property_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/structure/column_weather_property_widget.dart';
 
 class ThirdCardWeatherForecast extends StatelessWidget {
   final DailyWeatherForecastModel item;
@@ -48,32 +48,32 @@ class ThirdCardWeatherForecast extends StatelessWidget {
                   property: Tuple3(item.precipationSum, AppColors.mainOrange, TextType.large),
                   crossAxisAlignment: CrossAxisAlignment.center,
                 ),
-                const SizedBox(height: Space.normal),
+                const SizedBox(height: Space.medium),
                 Wrap(
-                  spacing: Space.normal,
+                  spacing: Space.medium,
                   children: [
                     precipitationWidget('Rain', item.rainSum),
                     precipitationWidget('Showers', item.showersSum),
                     precipitationWidget('Snowfall', item.snowfallSum),
                   ],
                 ),
-                const Divider(color: AppColors.neutral100, height: 2 * Space.big, thickness: 1),
+                const Divider(color: AppColors.neutral100, height: 2 * Space.large, thickness: 1),
                 const CustomText(
                   text: 'Precipitation Probability',
                   textType: TextType.medium,
                   fWeight: FWeight.bold,
                   color: AppColors.mainOrange,
                 ),
-                const SizedBox(height: Space.normal),
+                const SizedBox(height: Space.medium),
                 Wrap(
-                  spacing: Space.normal,
+                  spacing: Space.medium,
                   children: [
                     precipitationWidget('Max', item.precipitationProbabilityMax),
                     precipitationWidget('Min', item.precipitationProbabilityMin),
                     precipitationWidget('Mean', item.precipitationProbabilityMean),
                   ],
                 ),
-                const SizedBox(height: Space.normal),
+                const SizedBox(height: Space.medium),
               ],
             ),
           ),

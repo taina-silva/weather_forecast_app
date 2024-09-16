@@ -7,8 +7,9 @@ import 'package:weather_forecast_app/app/core/components/buttons/custom_button.d
 import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/models/country/country_model.dart';
+import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/location/location_text_field.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/text_field/location_text_field.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 class SelectCountryPage extends StatefulWidget {
@@ -36,7 +37,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Space.normal),
+        padding: const EdgeInsets.symmetric(horizontal: Space.medium),
         child: CustomButton(
           ButtonParameters(
             text: 'Go back',
@@ -47,30 +48,42 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
       ),
       body: Observer(
         builder: (context) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    final country = locationStore.countries[index];
+          return locationStore.getCountriesState.when(
+            initial: () => const SizedBox(),
+            loading: () =>
+                const Center(child: CircularProgressIndicator(color: AppColors.mainBlue)),
+            error: (message) => CustomText(text: message, textType: TextType.medium),
+            success: () {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: Space.nano),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.only(top: Space.nano),
+                        itemCount: locationStore.countries.length,
+                        itemBuilder: (context, index) {
+                          final country = locationStore.countries[index];
 
-                    return ListTile(
-                      title: CustomText(
-                        text: country.name,
-                        textType: TextType.small,
+                          return ListTile(
+                            title: CustomText(
+                              text: country.name,
+                              textType: TextType.small,
+                            ),
+                            onTap: () {
+                              locationStore.setSelectedCountry(country);
+                              Modular.to.pop(true);
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
                       ),
-                      onTap: () {
-                        locationStore.setSelectedCountry(country);
-                        Modular.to.pop(true);
-                      },
-                    );
-                  },
-                  itemCount: locationStore.countries.length,
+                    ),
+                    const SizedBox(height: 2.5 * Space.large),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 2.5 * Space.big),
-            ],
+              );
+            },
           );
         },
       ),

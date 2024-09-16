@@ -8,16 +8,21 @@ import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.
 import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/structure/temporary_widget.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
+import 'package:weather_forecast_app/app/core/components/toasts/toasts.dart';
+import 'package:weather_forecast_app/app/core/models/location/location_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/theme/status_bar_theme.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/bottom_sheet/location_bottom_sheet.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/first_card_weather_forecast.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/second_card_weather_forecast.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/cards/third_card_weather_forecast.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/components/date/date_widget.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/favorite/favorite_widget.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/location/location_bottom_sheet.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/first_card_weather_forecast.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/second_card_weather_forecast.dart';
-import 'package:weather_forecast_app/app/modules/home/presentation/components/weather/third_card_weather_forecast.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/components/general/favorite_widget.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/favorite_locations_store.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/favorite_locations_states.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/weather_states.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/weather_store.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final locationStore = Modular.get<LocationStore>();
   final weatherStore = Modular.get<WeatherStore>();
+  final favoriteLocationsStore = Modular.get<FavoriteLocationsStore>();
 
   int index = 0;
   late PageController _pageController;
@@ -45,12 +51,23 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController(initialPage: index);
 
     reactions = [
-      reaction(
-        (_) => locationStore.selectedCity,
-        (city) {
-          if (city != null) weatherStore.fetchWeather(city);
-        },
-      ),
+      reaction((_) => locationStore.selectedCity, (city) {
+        if (city == null) {
+          weatherStore.state = GetWeatherInitialState();
+        } else {
+          if (locationStore.selectedCountry != null) {
+            weatherStore.fetchWeather(
+                LocationModel(city: city, country: locationStore.selectedCountry!.name));
+          }
+        }
+      }),
+      reaction((_) => favoriteLocationsStore.manipulateFavoriteLocationState, (state) {
+        if (state is ManipulateFavoriteLocationSuccessState) {
+          showToast(context, state.message, ToastType.success);
+        } else if (state is ManipulateFavoriteLocationErrorState) {
+          showToast(context, state.message, ToastType.error);
+        }
+      })
     ];
   }
 
@@ -131,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                   textType: TextType.medium,
                 ),
               ),
-              success: (result) {
+              successWithData: (result) {
                 final item = result.daily[index];
                 final hasPrevious = index > 0;
                 final hasNext = index < result.daily.length - 1;
@@ -174,13 +191,13 @@ class _HomePageState extends State<HomePage> {
                                       SliverList(
                                         delegate: SliverChildListDelegate(
                                           [
-                                            const SizedBox(height: Space.normal),
+                                            const SizedBox(height: Space.medium),
                                             FirstCardWeatherForecast(item: item),
-                                            const SizedBox(height: Space.normal),
+                                            const SizedBox(height: Space.medium),
                                             SecondCardWeatherForecast(item: item),
-                                            const SizedBox(height: Space.normal),
+                                            const SizedBox(height: Space.medium),
                                             ThirdCardWeatherForecast(item: item),
-                                            const SizedBox(height: Space.normal),
+                                            const SizedBox(height: Space.medium),
                                           ],
                                         ),
                                       ),

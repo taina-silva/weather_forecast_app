@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:weather_forecast_app/app/core/services/rest_client/models/rest_client_response.dart';
+import 'package:weather_forecast_app/app/core/models/response/rest_client_response.dart';
 import 'package:weather_forecast_app/app/core/utils/env_vars.dart';
 
 abstract class RestClient {
