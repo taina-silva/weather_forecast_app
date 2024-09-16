@@ -4,6 +4,8 @@ A fully functional mobile application built using Flutter. This app consumes a p
 
 This app allows users to search for a city and view the current weather and a 7-day weather forecast.
 
+The app's offline feature enables users to retrieve saved weather forecasts for their favorite locations.
+
 ### **Architecture**
 
 The application was constructed based on a code modularization using Flutter Modular. This way, within the `lib/app` folder, we have the `core` and `modules` sections. In `core`, we have everything common to the entire application, that is, which can be used in any feature. Therefore, it includes generic widgets such as buttons, bottom sheets, app bars, scaffolds, and text widgets, all customizable according to the location of use but following a predefined configuration and styling to avoid code duplication and rework. In addition, the `core` contains the most generic services, such as `NetworkService`, `LoggerService` (to log errors or even normal information, such as navigation routes), `LocalStorage` (to handle local data storage), among others. There are also some global classes, methods, and constants.
