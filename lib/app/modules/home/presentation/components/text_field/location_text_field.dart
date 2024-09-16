@@ -7,6 +7,7 @@ class LocationTextField<T> extends StatefulWidget {
   final Future<void> Function(String?) getLocations;
   final String Function(T) locationAsStr;
   final String labelText;
+  final bool disabled;
 
   const LocationTextField({
     super.key,
@@ -15,6 +16,7 @@ class LocationTextField<T> extends StatefulWidget {
     required this.getLocations,
     required this.locationAsStr,
     required this.labelText,
+    this.disabled = false,
   });
 
   @override
@@ -41,23 +43,26 @@ class _LocationTextFieldState<T> extends State<LocationTextField<T>> {
       controller: _controller,
       onChanged: (value) => widget.getLocations(value),
       style: const TextStyle(color: AppColors.neutral0),
+      enabled: !widget.disabled,
       decoration: InputDecoration(
         labelText: widget.labelText,
         labelStyle: const TextStyle(color: AppColors.neutral0),
         hintText: 'Type to search',
         hintStyle: const TextStyle(color: AppColors.neutral200),
         border: InputBorder.none,
-        suffixIcon: GestureDetector(
-          onTap: () {
-            _controller.clear();
-            widget.onClear();
-            widget.getLocations(null);
-          },
-          child: const Icon(
-            Icons.clear,
-            color: AppColors.neutral0,
-          ),
-        ),
+        suffixIcon: widget.disabled
+            ? null
+            : GestureDetector(
+                onTap: () {
+                  _controller.clear();
+                  widget.onClear();
+                  widget.getLocations(null);
+                },
+                child: const Icon(
+                  Icons.clear,
+                  color: AppColors.neutral0,
+                ),
+              ),
       ),
     );
   }

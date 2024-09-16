@@ -11,7 +11,9 @@ class FavoriteLocationsStore = FavoriteLocationsStoreBase with _$FavoriteLocatio
 abstract class FavoriteLocationsStoreBase with Store {
   final FavoriteLocationsRepository _repository;
 
-  FavoriteLocationsStoreBase(this._repository);
+  FavoriteLocationsStoreBase(this._repository) {
+    getFavoriteLocations();
+  }
 
   @observable
   GetFavoriteLocationsState getFavoriteLocationsState = GetFavoriteLocationsInitialState();

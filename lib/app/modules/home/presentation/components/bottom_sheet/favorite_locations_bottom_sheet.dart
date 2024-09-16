@@ -5,6 +5,7 @@ import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/favorite_locations_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
 
 void showFavoriteLocationsBottomSheet(BuildContext context) {
   showModalBottomSheet(
@@ -25,6 +26,7 @@ class FavoriteLocations extends StatefulWidget {
 
 class _FavoriteLocationsState extends State<FavoriteLocations> {
   final favoriteLocationsStore = Modular.get<FavoriteLocationsStore>();
+  final locationStore = Modular.get<LocationStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class _FavoriteLocationsState extends State<FavoriteLocations> {
               horizontal: Space.nano,
             ),
             child: ListView.separated(
+              padding: EdgeInsets.zero,
               itemCount: favoriteLocationsStore.favoriteLocations.length,
               itemBuilder: (context, index) {
                 final location = favoriteLocationsStore.favoriteLocations[index];
@@ -76,6 +79,10 @@ class _FavoriteLocationsState extends State<FavoriteLocations> {
                     textType: TextType.small,
                     color: AppColors.mainOrange,
                   ),
+                  onTap: () {
+                    Modular.to.pop();
+                    locationStore.setCountryAndCity(location);
+                  },
                 );
               },
               separatorBuilder: (context, index) => const Divider(),

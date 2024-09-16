@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
+import 'package:weather_forecast_app/app/core/errors/exceptions.dart';
 import 'package:weather_forecast_app/app/core/models/country/country_model.dart';
 import 'package:weather_forecast_app/app/core/services/logger/logger_service.dart';
+import 'package:weather_forecast_app/app/core/services/network_service/network_service.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/core/utils/strings.dart';
 
@@ -14,16 +16,28 @@ abstract class CountriesService {
 }
 
 class CountriesServiceImpl implements CountriesService {
-  final LoggerService _loggerService;
+  CountriesServiceImpl._singleton();
+  static final CountriesServiceImpl instance = CountriesServiceImpl._singleton();
+
+  late LoggerService _loggerService;
+  late NetworkService _networkService;
+
+  factory CountriesServiceImpl(LoggerService loggerService, NetworkService networkService) {
+    instance._loggerService = loggerService;
+    instance._networkService = networkService;
+
+    return instance;
+  }
+
   final String jsonPath = '${Assets.jsons}/locations.json';
 
   List<CountryModel> countries = [];
 
-  CountriesServiceImpl(this._loggerService) {
-    _fetchCountries();
-  }
-
   Future<void> _fetchCountries() async {
+    if(!_networkService.isConnected){
+      throw NoConnectionException();
+    }
+
     try {
       final jsonString = await rootBundle.loadString(jsonPath);
       final data = json.decode(jsonString);

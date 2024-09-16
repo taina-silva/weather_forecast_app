@@ -18,4 +18,14 @@ class CountryModel extends Equatable {
       cities: List<String>.from(map['cities'] as List),
     );
   }
+
+  CountryModel copyWith({
+    String? name,
+    List<String>? cities,
+  }) {
+    return CountryModel(
+      name: name ?? this.name,
+      cities: cities ?? this.cities,
+    );
+  }
 }

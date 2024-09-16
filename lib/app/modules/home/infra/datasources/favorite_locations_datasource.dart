@@ -6,7 +6,7 @@ import 'package:weather_forecast_app/app/modules/home/infra/errors/exceptions.da
 
 abstract class FavoriteLocationsDatasource {
   Future<List<LocationModel>> fetchFavoritesLocations();
-  Future<WeatherForecastModel> fetchFavoriteLocationDetailed(LocationModel location);
+  Future<WeatherForecastModel?> fetchFavoriteLocationDetailed(LocationModel location);
   Future<void> addFavoriteLocationWithWeather(LocationModel location, WeatherForecastModel weather);
   Future<void> removeFavoriteLocation(LocationModel location);
 }
@@ -41,11 +41,11 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
   }
 
   @override
-  Future<WeatherForecastModel> fetchFavoriteLocationDetailed(LocationModel location) async {
+  Future<WeatherForecastModel?> fetchFavoriteLocationDetailed(LocationModel location) async {
     try {
       final result =
           await _localStorage.read<Map<String, dynamic>>('${location.city}-${location.country}');
-      if (result == null) throw const FetchFavoriteLocationDetailedException();
+      if (result == null) return null;
 
       return WeatherForecastModel.fromLocalMap(result);
     } catch (error, stackTrace) {

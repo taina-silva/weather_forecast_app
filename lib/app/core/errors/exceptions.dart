@@ -15,3 +15,10 @@ class UnsupportedStorageTypeException implements Exception {
   @override
   String toString() => 'InvalidStorageTypeException(message: $message)';
 }
+
+class NoConnectionException implements Exception {
+  final String message = 'No connection available';
+
+  @override
+  String toString() => 'NoConnectionException(message: $message)';
+}

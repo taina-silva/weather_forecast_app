@@ -5,11 +5,13 @@ import 'package:fpdart/fpdart.dart' hide State;
 import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
 import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/temporary_widget.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/components/text_field/location_text_field.dart';
 import 'package:weather_forecast_app/app/modules/home/presentation/stores/location_store.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/stores/states/location_states.dart';
 
 class SelectCityPage extends StatefulWidget {
   const SelectCityPage({super.key});
@@ -29,10 +31,11 @@ class _SelectCityPageState extends State<SelectCityPage> {
           title: Right(
             LocationTextField<String>(
               selectedLocation: locationStore.selectedCity,
-              onClear: () => {locationStore.setSelectedCity(null)},
+              onClear: () => locationStore.setSelectedCity(null),
               getLocations: locationStore.getCities,
               locationAsStr: (city) => city,
               labelText: 'City',
+              disabled: locationStore.getCitiesState is GetCitiesNoConnectionState,
             ),
           ),
         );
@@ -54,7 +57,11 @@ class _SelectCityPageState extends State<SelectCityPage> {
             loading: () =>
                 const Center(child: CircularProgressIndicator(color: AppColors.mainBlue)),
             error: (message) => CustomText(text: message, textType: TextType.medium),
-            success: () {
+            noConnection: () => const TemporaryWidget(
+              title: 'No connection!',
+              subtitle: 'Please check your internet connection.',
+            ),
+            successWithData: (cities) {
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: Space.nano),
                 child: Column(
@@ -62,9 +69,9 @@ class _SelectCityPageState extends State<SelectCityPage> {
                     Expanded(
                       child: ListView.separated(
                         padding: const EdgeInsets.only(top: Space.nano),
-                        itemCount: locationStore.cities.length,
+                        itemCount: cities.length,
                         itemBuilder: (context, index) {
-                          final city = locationStore.cities[index];
+                          final city = cities[index];
 
                           return ListTile(
                             title: CustomText(

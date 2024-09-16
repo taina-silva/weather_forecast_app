@@ -29,6 +29,8 @@ class LocationBottomSheet extends StatelessWidget {
     final locationStore = Modular.get<LocationStore>();
 
     Future<void> navigateToSelectCityPage() async {
+      locationStore.getCities(null);
+
       final result = await Modular.to
           .push(slideRoute((context, animation, secondaryAnimation) => const SelectCityPage()));
       if (result == true) Modular.to.popUntil(ModalRoute.withName(AppRoutes.home));
@@ -64,6 +66,7 @@ class LocationBottomSheet extends StatelessWidget {
                   text: locationStore.selectedCity ?? 'Select a city',
                   onTap: () async => await navigateToSelectCityPage(),
                   suffixIcon: Icons.edit_outlined,
+                  isDisabled: locationStore.selectedCountry == null,
                 ),
                 locationStore.selectedCity == null
                     ? ButtonType.secondaryOrange

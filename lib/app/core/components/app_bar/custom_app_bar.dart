@@ -45,7 +45,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           Expanded(
             child: widget.title.fold(
               (title) => GestureDetector(
-                onTap: canPop() ? () => Modular.to.pop() : title.item2,
+                onTap: title.item2,
                 child: CustomText(
                   text: title.item1,
                   textType: TextType.medium,
@@ -68,30 +68,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
   }
 
   bool canPop() => Modular.to.canPop();
-
-  Widget _renderAppBarLeading(BuildContext context) {
-    if (widget.leading != null) {
-      return Container(
-        margin: const EdgeInsets.only(right: Layout.appBarLeadingAndTrailingWidth / 4),
-        child: widget.leading!,
-      );
-    }
-
-    if (!canPop()) return const SizedBox();
-
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      child: GestureDetector(
-        onTap: () => Modular.to.pop(),
-        child: const Icon(
-          Icons.keyboard_arrow_left,
-          color: AppColors.neutral600,
-          size: Layout.appBarLeadingAndTrailingWidth,
-          semanticLabel: 'Voltar para a página anterior',
-        ),
-      ),
-    );
-  }
 
   Widget _renderAppBarTrailing(BuildContext context) {
     if (widget.trailing == null) return const SizedBox();

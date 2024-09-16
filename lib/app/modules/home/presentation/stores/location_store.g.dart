@@ -13,13 +13,13 @@ mixin _$LocationStore on LocationStoreBase, Store {
       Atom(name: 'LocationStoreBase.getCountriesState', context: context);
 
   @override
-  GetLocationsState get getCountriesState {
+  GetCountriesState get getCountriesState {
     _$getCountriesStateAtom.reportRead();
     return super.getCountriesState;
   }
 
   @override
-  set getCountriesState(GetLocationsState value) {
+  set getCountriesState(GetCountriesState value) {
     _$getCountriesStateAtom.reportWrite(value, super.getCountriesState, () {
       super.getCountriesState = value;
     });
@@ -29,47 +29,15 @@ mixin _$LocationStore on LocationStoreBase, Store {
       Atom(name: 'LocationStoreBase.getCitiesState', context: context);
 
   @override
-  GetLocationsState get getCitiesState {
+  GetCitiesState get getCitiesState {
     _$getCitiesStateAtom.reportRead();
     return super.getCitiesState;
   }
 
   @override
-  set getCitiesState(GetLocationsState value) {
+  set getCitiesState(GetCitiesState value) {
     _$getCitiesStateAtom.reportWrite(value, super.getCitiesState, () {
       super.getCitiesState = value;
-    });
-  }
-
-  late final _$countriesAtom =
-      Atom(name: 'LocationStoreBase.countries', context: context);
-
-  @override
-  List<CountryModel> get countries {
-    _$countriesAtom.reportRead();
-    return super.countries;
-  }
-
-  @override
-  set countries(List<CountryModel> value) {
-    _$countriesAtom.reportWrite(value, super.countries, () {
-      super.countries = value;
-    });
-  }
-
-  late final _$citiesAtom =
-      Atom(name: 'LocationStoreBase.cities', context: context);
-
-  @override
-  List<String> get cities {
-    _$citiesAtom.reportRead();
-    return super.cities;
-  }
-
-  @override
-  set cities(List<String> value) {
-    _$citiesAtom.reportWrite(value, super.cities, () {
-      super.cities = value;
     });
   }
 
@@ -151,12 +119,21 @@ mixin _$LocationStore on LocationStoreBase, Store {
   }
 
   @override
+  void setCountryAndCity(LocationModel location) {
+    final _$actionInfo = _$LocationStoreBaseActionController.startAction(
+        name: 'LocationStoreBase.setCountryAndCity');
+    try {
+      return super.setCountryAndCity(location);
+    } finally {
+      _$LocationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 getCountriesState: ${getCountriesState},
-getCitiesState: ${getCitiesState},
-countries: ${countries},
-cities: ${cities}
+getCitiesState: ${getCitiesState}
     ''';
   }
 }
