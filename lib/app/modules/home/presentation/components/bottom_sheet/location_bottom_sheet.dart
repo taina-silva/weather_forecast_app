@@ -29,7 +29,7 @@ class LocationBottomSheet extends StatelessWidget {
     final locationStore = Modular.get<LocationStore>();
 
     Future<void> navigateToSelectCityPage() async {
-      locationStore.getCities(null);
+      locationStore.fetchCities(null);
 
       final result = await Modular.to
           .push(slideRoute((context, animation, secondaryAnimation) => const SelectCityPage()));

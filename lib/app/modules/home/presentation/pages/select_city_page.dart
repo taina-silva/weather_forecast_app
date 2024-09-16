@@ -32,7 +32,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
             LocationTextField<String>(
               selectedLocation: locationStore.selectedCity,
               onClear: () => locationStore.setSelectedCity(null),
-              getLocations: locationStore.getCities,
+              getLocations: locationStore.fetchCities,
               locationAsStr: (city) => city,
               labelText: 'City',
               disabled: locationStore.getCitiesState is GetCitiesNoConnectionState,
@@ -62,6 +62,13 @@ class _SelectCityPageState extends State<SelectCityPage> {
               subtitle: 'Please check your internet connection.',
             ),
             successWithData: (cities) {
+              if(cities.isEmpty) {
+                return const TemporaryWidget(
+                  title: 'No cities found!',
+                  subtitle: 'Please try another search.',
+                );
+              }
+
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: Space.nano),
                 child: Column(

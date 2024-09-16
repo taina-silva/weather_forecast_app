@@ -33,7 +33,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
             LocationTextField<CountryModel>(
               selectedLocation: locationStore.selectedCountry,
               onClear: () => locationStore.setSelectedCountry(null),
-              getLocations: locationStore.getCountries,
+              getLocations: locationStore.fetchCountries,
               locationAsStr: (country) => country.name,
               labelText: 'Country',
               disabled: locationStore.getCountriesState is GetCountriesNoConnectionState,
@@ -63,6 +63,13 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
               subtitle: 'Please check your internet connection.',
             ),
             successWithData: (countries) {
+              if (countries.isEmpty) {
+                return const TemporaryWidget(
+                  title: 'No countries found!',
+                  subtitle: 'Please try again later.',
+                );
+              }
+
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: Space.nano),
                 child: Column(

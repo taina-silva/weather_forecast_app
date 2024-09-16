@@ -61,14 +61,14 @@ mixin _$FavoriteLocationsStore on FavoriteLocationsStoreBase, Store {
     });
   }
 
-  late final _$getFavoriteLocationsAsyncAction = AsyncAction(
-      'FavoriteLocationsStoreBase.getFavoriteLocations',
+  late final _$fetchFavoriteLocationsAsyncAction = AsyncAction(
+      'FavoriteLocationsStoreBase.fetchFavoriteLocations',
       context: context);
 
   @override
-  Future<void> getFavoriteLocations() {
-    return _$getFavoriteLocationsAsyncAction
-        .run(() => super.getFavoriteLocations());
+  Future<void> fetchFavoriteLocations() {
+    return _$fetchFavoriteLocationsAsyncAction
+        .run(() => super.fetchFavoriteLocations());
   }
 
   late final _$addFavoriteLocationAsyncAction = AsyncAction(

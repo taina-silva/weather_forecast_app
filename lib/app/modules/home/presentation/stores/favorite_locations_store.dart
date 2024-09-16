@@ -12,7 +12,7 @@ abstract class FavoriteLocationsStoreBase with Store {
   final FavoriteLocationsRepository _repository;
 
   FavoriteLocationsStoreBase(this._repository) {
-    getFavoriteLocations();
+    fetchFavoriteLocations();
   }
 
   @observable
@@ -28,7 +28,7 @@ abstract class FavoriteLocationsStoreBase with Store {
   bool isFavorite(LocationModel location) => favoriteLocations.contains(location);
 
   @action
-  Future<void> getFavoriteLocations() async {
+  Future<void> fetchFavoriteLocations() async {
     getFavoriteLocationsState = GetFavoriteLocationsLoadingState();
 
     final result = await _repository.fetchFavoritesLocations();

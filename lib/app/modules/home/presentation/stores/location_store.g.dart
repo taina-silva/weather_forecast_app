@@ -77,20 +77,20 @@ mixin _$LocationStore on LocationStoreBase, Store {
     });
   }
 
-  late final _$getCountriesAsyncAction =
-      AsyncAction('LocationStoreBase.getCountries', context: context);
+  late final _$fetchCountriesAsyncAction =
+      AsyncAction('LocationStoreBase.fetchCountries', context: context);
 
   @override
-  Future<void> getCountries(String? search) {
-    return _$getCountriesAsyncAction.run(() => super.getCountries(search));
+  Future<void> fetchCountries(String? search) {
+    return _$fetchCountriesAsyncAction.run(() => super.fetchCountries(search));
   }
 
-  late final _$getCitiesAsyncAction =
-      AsyncAction('LocationStoreBase.getCities', context: context);
+  late final _$fetchCitiesAsyncAction =
+      AsyncAction('LocationStoreBase.fetchCities', context: context);
 
   @override
-  Future<void> getCities(String? search) {
-    return _$getCitiesAsyncAction.run(() => super.getCities(search));
+  Future<void> fetchCities(String? search) {
+    return _$fetchCitiesAsyncAction.run(() => super.fetchCities(search));
   }
 
   late final _$LocationStoreBaseActionController =

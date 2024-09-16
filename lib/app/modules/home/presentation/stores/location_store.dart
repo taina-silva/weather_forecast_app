@@ -60,7 +60,7 @@ abstract class LocationStoreBase with Store {
   }
 
   @action
-  Future<void> getCountries(String? search) async {
+  Future<void> fetchCountries(String? search) async {
     getCountriesState = GetCountriesLoadingState();
 
     try {
@@ -74,7 +74,7 @@ abstract class LocationStoreBase with Store {
   }
 
   @action
-  Future<void> getCities(String? search) async {
+  Future<void> fetchCities(String? search) async {
     getCitiesState = GetCitiesLoadingState();
 
     if (_selectedCountry == null) {

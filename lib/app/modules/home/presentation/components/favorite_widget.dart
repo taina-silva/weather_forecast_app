@@ -53,7 +53,7 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
                 ButtonParameters(
                   text: 'Favorite Locations',
                   onTap: () {
-                    favoriteStore.getFavoriteLocations();
+                    favoriteStore.fetchFavoriteLocations();
                     showFavoriteLocationsBottomSheet(context);
                   },
                 ),
