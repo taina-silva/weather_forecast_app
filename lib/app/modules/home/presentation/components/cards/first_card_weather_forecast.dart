@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
-import 'package:weather_forecast_app/app/core/enums/weather_condition.dart';
+import 'package:weather_forecast_app/app/modules/home/presentation/enums/weather_condition.dart';
 import 'package:weather_forecast_app/app/core/models/weather_forecast/daily_weather_forecast_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
