@@ -41,3 +41,5 @@ To easily run the application, it is recommended to create a file like `.env/dev
 To run the tests, you can use RPS ([https://pub.dev/packages/rps](https://pub.dev/packages/rps)) to facilitate, as a script is already included in `pubspec.yaml` that uses this tool.
 To activate RPS, run `dart pub global activate rps` in the terminal.
 Also, before running `rps test`, run the following command to activate the Flutter test coverage package: `dart pub global activate full_coverage`.
+
+_Note: When pushing changes to main branch, tests are run bu Github Actions_
