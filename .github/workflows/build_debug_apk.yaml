@@ -25,7 +25,7 @@ jobs:
         run: fvm flutter pub get
 
       - name: Build debug APK
-        run: fvm flutter build apk --debug --dart-define="ENV=${{ variables.ENV }}" --dart-define="WEATHER_API_URL=${{ variables.WEATHER_API_URL }}" --dart-define="GEO_API_URL=${{ variables.GEO_API_URL }}" --dart-define="API_KEY=${{ secrets.API_KEY }}"
+        run: fvm flutter build apk --debug --dart-define="ENV=${{ env.ENV }}" --dart-define="WEATHER_API_URL=${{ env.WEATHER_API_URL }}" --dart-define="GEO_API_URL=${{ env.GEO_API_URL }}" --dart-define="API_KEY=${{ secrets.API_KEY }}"
         env:
           API_KEY: ${{ secrets.API_KEY }}
           ENV: ${{ env.ENV }}
