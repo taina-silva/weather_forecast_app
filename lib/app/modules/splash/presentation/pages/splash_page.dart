@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/routes/app_routes.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/theme/status_bar_theme.dart';

@@ -4,15 +4,19 @@ import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 
 class FavoriteWidget extends StatelessWidget {
-  const FavoriteWidget({super.key});
+  final bool hideSaveAsFavorite;
+
+  const FavoriteWidget({
+    super.key,
+    this.hideSaveAsFavorite = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        left: Space.nano,
-        right: Space.nano,
-        bottom: Space.normal,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.nano,
+        vertical: Space.small,
       ),
       child: Row(
         children: [
@@ -26,13 +30,14 @@ class FavoriteWidget extends StatelessWidget {
               ButtonType.secondaryOrange,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite_border_outlined),
-            iconSize: 40,
-            splashRadius: 0.01,
-            color: AppColors.mainBlue,
-          ),
+          if (!hideSaveAsFavorite)
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.favorite_border_outlined),
+              iconSize: 40,
+              splashRadius: 0.01,
+              color: AppColors.mainBlue,
+            ),
         ],
       ),
     );

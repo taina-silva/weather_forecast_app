@@ -5,7 +5,8 @@ import 'package:fpdart/fpdart.dart' hide State;
 import 'package:mobx/mobx.dart';
 import 'package:tuple/tuple.dart';
 import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.dart';
-import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/temporary_widget.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/theme/status_bar_theme.dart';
@@ -31,13 +32,17 @@ class _HomePageState extends State<HomePage> {
   final weatherStore = Modular.get<WeatherStore>();
 
   int index = 0;
+  late PageController _pageController;
 
   List<ReactionDisposer> reactions = [];
 
   @override
   void initState() {
     super.initState();
+
     changeStatusBarTheme(StatusBarTheme.light, AppColors.mainBlue);
+
+    _pageController = PageController(initialPage: index);
 
     reactions = [
       reaction(
@@ -49,9 +54,26 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   Widget arrowWidget(bool show, IconData icon, void Function() onTap) {
     return IconButton(
-      onPressed: show ? () => setState(() => onTap()) : null,
+      onPressed: !show
+          ? null
+          : () {
+              setState(() {
+                onTap();
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 1500),
+                  curve: Curves.easeOutBack,
+                );
+              });
+            },
       icon: Icon(icon),
       iconSize: 40,
       color: show ? AppColors.mainBlue : AppColors.neutral0,
@@ -85,11 +107,24 @@ class _HomePageState extends State<HomePage> {
       body: Observer(
         builder: (context) {
           return Container(
-            margin: const EdgeInsets.only(top: Space.normal),
             child: weatherStore.state.when(
-              initial: () => const SizedBox(),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              noConnection: () => const Center(child: Text('No connection')),
+              initial: () => const TemporaryWidget(
+                title: 'Welcome!',
+                subtitle: 'Select a location to see the weather forecast.',
+                message:
+                    'Choose from favorites or search for a new location on the top of this screen.',
+                content: FavoriteWidget(hideSaveAsFavorite: true),
+              ),
+              loading: () => const TemporaryWidget(
+                title: 'Loading...',
+                subtitle: 'Please wait a moment.',
+                content: CircularProgressIndicator(color: AppColors.mainBlue),
+              ),
+              noConnection: () => const TemporaryWidget(
+                title: 'No connection!',
+                subtitle: 'Please check your internet connection.',
+                content: FavoriteWidget(hideSaveAsFavorite: true),
+              ),
               error: (message) => Center(
                 child: CustomText(
                   text: message,
@@ -107,11 +142,6 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.only(
-                          left: Space.normal,
-                          right: Space.normal,
-                          top: Space.normal,
-                        ),
                         decoration: BoxDecoration(
                           color: AppColors.lightBlue,
                           borderRadius: const BorderRadius.only(
@@ -122,6 +152,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Column(
                           children: [
+                            const SizedBox(height: Space.small),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -132,24 +163,32 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             Expanded(
-                              child: CustomScrollView(
-                                slivers: [
-                                  SliverList(
-                                    delegate: SliverChildListDelegate(
-                                      [
-                                        const SizedBox(height: Space.normal),
-                                        FirstCardWeatherForecast(item: item),
-                                        const SizedBox(height: Space.normal),
-                                        SecondCardWeatherForecast(item: item),
-                                        const SizedBox(height: Space.normal),
-                                        ThirdCardWeatherForecast(item: item),
-                                        const SizedBox(height: Space.normal),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              child: PageView.builder(
+                                controller: _pageController,
+                                onPageChanged: (i) => setState(() => index = i),
+                                itemCount: result.daily.length,
+                                itemBuilder: (context, i) {
+                                  final item = result.daily[i];
+                                  return CustomScrollView(
+                                    slivers: [
+                                      SliverList(
+                                        delegate: SliverChildListDelegate(
+                                          [
+                                            const SizedBox(height: Space.normal),
+                                            FirstCardWeatherForecast(item: item),
+                                            const SizedBox(height: Space.normal),
+                                            SecondCardWeatherForecast(item: item),
+                                            const SizedBox(height: Space.normal),
+                                            ThirdCardWeatherForecast(item: item),
+                                            const SizedBox(height: Space.normal),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),

@@ -17,6 +17,7 @@ class SecondCardWeatherForecast extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(Space.small),
+      margin: const EdgeInsets.symmetric(horizontal: Space.small),
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: const BorderRadius.all(Radius.circular(Layout.borderRadiusSmall)),

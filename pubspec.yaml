@@ -64,6 +64,7 @@ flutter:
     - assets/app_icon/
     - assets/logo/
     - assets/icons/
+    - assets/images/
     - assets/jsons/
 
   fonts:

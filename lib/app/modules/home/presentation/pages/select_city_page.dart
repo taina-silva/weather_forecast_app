@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
-import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
@@ -53,10 +53,7 @@ class _SelectCityPageState extends State<SelectCityPage> {
             children: [
               Expanded(
                 child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: Space.normal,
-                    horizontal: Space.small,
-                  ),
+                  padding: EdgeInsets.zero,
                   itemCount: locationStore.cities.length,
                   itemBuilder: (context, index) {
                     final city = locationStore.cities[index];
@@ -66,18 +63,10 @@ class _SelectCityPageState extends State<SelectCityPage> {
                         locationStore.setSelectedCity(city);
                         Modular.to.pop(true);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.all(Space.nano),
-                        decoration: BoxDecoration(
-                          color: AppColors.background,
-                          border: const Border(
-                            bottom: BorderSide(
-                              color: AppColors.neutral200,
-                              width: 1,
-                            ),
-                          ),
-                          borderRadius: BorderRadius.circular(Layout.borderRadiusSmall),
-                          boxShadow: [Layout.boxShadow(AppColors.neutral100)],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: Space.small,
+                          horizontal: Space.normal,
                         ),
                         child: CustomText(
                           text: city,
@@ -86,7 +75,10 @@ class _SelectCityPageState extends State<SelectCityPage> {
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => const SizedBox(height: Space.nano),
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 0,
+                    color: AppColors.neutral100,
+                  ),
                 ),
               ),
               const SizedBox(height: 2.5 * Space.big),

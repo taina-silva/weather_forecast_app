@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:weather_forecast_app/app/core/components/app_bar/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
-import 'package:weather_forecast_app/app/core/components/scaffold/custom_scaffold.dart';
+import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/models/country/country_model.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';

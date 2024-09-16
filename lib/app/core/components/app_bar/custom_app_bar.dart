@@ -28,6 +28,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: Layout.appBarSize,
+      padding: const EdgeInsets.symmetric(horizontal: Space.normal),
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? AppColors.mainBlue,
         boxShadow: [Layout.boxShadow(AppColors.mainBlue)],
@@ -35,36 +38,31 @@ class _CustomAppBarState extends State<CustomAppBar> {
           bottom: Radius.circular(Layout.borderRadiusMedium),
         ),
       ),
-      child: Container(
-        width: double.infinity,
-        height: Layout.appBarSize,
-        padding: const EdgeInsets.symmetric(horizontal: Space.normal),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // _renderAppBarLeading(context),
-            Expanded(
-              child: widget.title.fold(
-                (title) => GestureDetector(
-                  onTap: canPop() ? () => Modular.to.pop() : title.item2,
-                  child: CustomText(
-                    text: title.item1,
-                    textType: TextType.medium,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    fWeight: FWeight.bold,
-                    color: AppColors.neutral0,
-                  ),
-                ),
-                (widget) => Container(
-                  alignment: Alignment.bottomLeft,
-                  child: widget,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // _renderAppBarLeading(context),
+          Expanded(
+            child: widget.title.fold(
+              (title) => GestureDetector(
+                onTap: canPop() ? () => Modular.to.pop() : title.item2,
+                child: CustomText(
+                  text: title.item1,
+                  textType: TextType.medium,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  fWeight: FWeight.bold,
+                  color: AppColors.neutral0,
                 ),
               ),
+              (widget) => Container(
+                alignment: Alignment.bottomLeft,
+                child: widget,
+              ),
             ),
-            _renderAppBarTrailing(context),
-          ],
-        ),
+          ),
+          _renderAppBarTrailing(context),
+        ],
       ),
     );
   }

@@ -25,10 +25,9 @@ class CustomScaffold extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).padding.top,
             width: MediaQuery.of(context).size.width,
-            color: statusBarColor,
           ),
           appBar,
           Expanded(child: body),

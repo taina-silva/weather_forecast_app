@@ -28,6 +28,7 @@ class ThirdCardWeatherForecast extends StatelessWidget {
 
     return Container(
       width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: Space.small),
       decoration: const BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.all(Radius.circular(Layout.borderRadiusSmall)),

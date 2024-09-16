@@ -17,6 +17,7 @@ class FirstCardWeatherForecast extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(Space.nano),
+      margin: const EdgeInsets.symmetric(horizontal: Space.small),
       decoration: BoxDecoration(
         color: AppColors.mainBlue,
         border: Border.all(color: AppColors.mainBlue),
@@ -35,6 +36,7 @@ class FirstCardWeatherForecast extends StatelessWidget {
                 height: 100,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
                     text: determineWeatherCondition(item).name,
