@@ -23,6 +23,8 @@ abstract class FavoriteLocationsStoreBase with Store {
   @observable
   ObservableList<LocationModel> favoriteLocations = ObservableList<LocationModel>();
 
+  bool isFavorite(LocationModel location) => favoriteLocations.contains(location);
+
   @action
   Future<void> getFavoriteLocations() async {
     getFavoriteLocationsState = GetFavoriteLocationsLoadingState();

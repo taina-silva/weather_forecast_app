@@ -26,9 +26,9 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
 
       final locations = <LocationModel>[];
 
-      for (final value in result['locations'] as List<String>) {
-        final city = value.split('/').first;
-        final country = value.split('/').last;
+      for (final value in result['locations'] as List<dynamic>) {
+        final city = value.toString().split('/').first;
+        final country = value.toString().split('/').last;
 
         locations.add(LocationModel(city: city, country: country));
       }
@@ -61,6 +61,7 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
       final locations = await fetchFavoritesLocations();
 
       if (!locations.contains(location)) {
+        locations.add(location);
         await _localStorage.write('favorite-locations',
             {'locations': locations.map((e) => '${e.city}/${e.country}').toList()});
       }
