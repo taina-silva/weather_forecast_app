@@ -18,7 +18,7 @@ To retrieve the data related to the 7-day weather forecast, the following APIs w
 
 - **Open Meteo ([https://open-meteo.com/en/docs](https://open-meteo.com/en/docs#timezone=America%2FSao_Paulo)):** A free API that returns weather information for a given location following various structures, including on a daily basis, considering the current day and the next 6 days (method used in this application).
 
-_Note: The OpenWeatherMap API () was not used because, to obtain daily forecasts, it would be necessary to register and provide payment information. After a certain number of requests, the use of the API becomes paid._
+_Note: The [OpenWeatherMap API](https://openweathermap.org/api/one-call-3) was not used because, to obtain daily forecasts, it would be necessary to register and provide payment information. After a certain number of requests, the use of the API becomes paid._
 
 - **Geo API ([https://openweathermap.org/api/geocoding-api](https://openweathermap.org/api/geocoding-api)):** API used to retrieve latitude and longitude coordinates from a specific location - city and country. This is because the weather forecast API requires sending such coordinates as parameters.
 
