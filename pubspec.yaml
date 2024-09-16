@@ -22,7 +22,7 @@ scripts:
     $script: dart run build_runner watch --delete-conflicting-outputs
 
   test:
-    $before: fvm flutter pub run full_coverage
+    $before: dart pub global run full_coverage
     $script: fvm flutter test --coverage
 
 dependencies:
@@ -50,6 +50,8 @@ dependencies:
   carousel_slider: ^5.0.0
   flutter_secure_storage: ^9.2.2
   fluttertoast: ^8.2.8
+  mockito: ^5.4.4
+  full_coverage: ^1.0.0
 
 dev_dependencies:
   flutter_test:

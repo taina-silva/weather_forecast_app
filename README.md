@@ -3,3 +3,7 @@
 [Geo API](https://openweathermap.org/api/geocoding-api)
 
 [Open Meteo](https://open-meteo.com/en/docs#timezone=America%2FSao_Paulo)
+
+dart pub global activate full_coverage
+
+dart pub global activate rps

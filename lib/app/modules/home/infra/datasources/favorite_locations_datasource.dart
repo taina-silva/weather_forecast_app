@@ -21,7 +21,6 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
   Future<List<LocationModel>> fetchFavoritesLocations() async {
     try {
       final result = await _localStorage.read<Map<String, dynamic>>('favorite-locations');
-
       if (result == null) return [];
 
       final locations = <LocationModel>[];
@@ -61,9 +60,9 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
       final locations = await fetchFavoritesLocations();
 
       if (!locations.contains(location)) {
-        locations.add(location);
-        await _localStorage.write('favorite-locations',
-            {'locations': locations.map((e) => '${e.city}/${e.country}').toList()});
+        await _localStorage.write('favorite-locations', {
+          'locations': [...locations, location].map((e) => '${e.city}/${e.country}').toList()
+        });
       }
 
       await _localStorage.write('${location.city}-${location.country}', weather.toMap());
@@ -78,10 +77,10 @@ class FavoriteLocationsDatasourceImpl implements FavoriteLocationsDatasource {
     try {
       final locations = await fetchFavoritesLocations();
 
-      locations.remove(location);
-
-      await _localStorage.write('favorite-locations',
-          {'locations': locations.map((e) => '${e.city}/${e.country}').toList()});
+      await _localStorage.write('favorite-locations', {
+        'locations':
+            locations.where((e) => e != location).map((e) => '${e.city}/${e.country}').toList()
+      });
 
       await _localStorage.delete('${location.city}-${location.country}');
     } catch (error, stackTrace) {

@@ -51,7 +51,7 @@ class FetchWeatherDatasourceImpl implements FetchWeatherDatasource {
         },
       );
 
-      if (response.data == null) throw Exception();
+      if (response.data == null) throw const FetchWeatherException();
 
       final weather = await compute<ComputeParams<WeatherForecastModel>, WeatherForecastModel>(
         parseItemInBackground,

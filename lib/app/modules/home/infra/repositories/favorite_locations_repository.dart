@@ -8,8 +8,6 @@ import 'package:weather_forecast_app/app/modules/home/infra/errors/failures.dart
 
 abstract class FavoriteLocationsRepository {
   Future<Either<Failure, List<LocationModel>>> fetchFavoritesLocations();
-  Future<Either<Failure, WeatherForecastModel?>> fetchFavoriteLocationDetailed(
-      LocationModel location);
   Future<Either<Failure, Unit>> addFavoriteLocationWithWeather(
       LocationModel location, WeatherForecastModel weather);
   Future<Either<Failure, Unit>> removeFavoriteLocation(LocationModel location);
@@ -32,17 +30,6 @@ class FavoriteLocationsRepositoryImpl implements FavoriteLocationsRepository {
       return right(result);
     } on Failure catch (error) {
       return left(error);
-    }
-  }
-
-  @override
-  Future<Either<Failure, WeatherForecastModel?>> fetchFavoriteLocationDetailed(
-      LocationModel location) async {
-    try {
-      final result = await _datasource.fetchFavoriteLocationDetailed(location);
-      return right(result);
-    } on FetchFavoriteLocationDetailedException catch (_) {
-      return left(FetchFavoriteLocationDetailedFailure(location: location));
     }
   }
 

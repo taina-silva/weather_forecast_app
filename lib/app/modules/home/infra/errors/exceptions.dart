@@ -1,10 +1,11 @@
 class FetchPositionFromLocationException implements Exception {
   final String? message;
 
-  const FetchPositionFromLocationException({this.message = 'Error fetching position from city'});
+  const FetchPositionFromLocationException(
+      {this.message = 'Error fetching position from location'});
 
   @override
-  String toString() => 'FetchPositionFromCityException(message: $message)';
+  String toString() => 'FetchPositionFromLocationException(message: $message)';
 }
 
 class FetchWeatherException implements Exception {
