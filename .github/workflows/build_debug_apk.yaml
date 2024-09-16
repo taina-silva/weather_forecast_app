@@ -1,0 +1,39 @@
+name: Build Debug APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "33.24.2"
+
+      - name: Install FVM
+        run: flutter pub global activate fvm
+
+      - name: Install dependencies
+        run: fvm flutter pub get
+
+      - name: Build debug APK
+        run: fvm flutter build apk --debug --dart-define="ENV=${{ variables.ENV }}" --dart-define="WEATHER_API_URL=${{ variables.WEATHER_API_URL }}" --dart-define="GEO_API_URL=${{ variables.GEO_API_URL }}" --dart-define="API_KEY=${{ secrets.API_KEY }}"
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          ENV: ${{ variables.ENV }}
+          WEATHER_API_URL: ${{ variables.WEATHER_API_URL }}
+          GEO_API_URL: ${{ variables.GEO_API_URL }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-apk
+          path: build/app/outputs/flutter-apk/debug.apk

@@ -72,7 +72,7 @@ void main() {
     // Assert
     expect(stateChanges, [
       isA<GetWeatherLoadingState>(),
-      isA<GetWeatherErrorState>(),
+      isA<GetWeatherSuccessState>(),
     ]);
     expect((store.state as GetWeatherSuccessState).weatherForecast, weather);
   });
