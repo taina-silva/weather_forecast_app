@@ -55,8 +55,11 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
         builder: (context) {
           return locationStore.getCountriesState.when(
             initial: () => const SizedBox(),
-            loading: () =>
-                const Center(child: CircularProgressIndicator(color: AppColors.mainBlue)),
+            loading: () => const TemporaryWidget(
+              title: 'Loading...',
+              subtitle: 'Please wait a moment.',
+              content: CircularProgressIndicator(color: AppColors.mainBlue),
+            ),
             error: (message) => TemporaryWidget(
               title: 'Oops!',
               subtitle: message,
