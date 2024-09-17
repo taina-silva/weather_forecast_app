@@ -12,8 +12,6 @@ import 'package:weather_forecast_app/app/core/services/logger/logger_service.dar
 import 'package:weather_forecast_app/app/core/services/network_service/network_service.dart';
 import 'package:weather_forecast_app/app/modules/home/infra/datasources/favorite_locations_datasource.dart';
 import 'package:weather_forecast_app/app/modules/home/infra/datasources/fetch_weather_datasource.dart';
-import 'package:weather_forecast_app/app/modules/home/infra/errors/exceptions.dart';
-import 'package:weather_forecast_app/app/modules/home/infra/errors/failures.dart';
 import 'package:weather_forecast_app/app/modules/home/infra/repositories/fetch_weather_repository.dart';
 
 import 'fetch_weather_repository_test.mocks.dart';
@@ -37,48 +35,6 @@ void main() {
       networkService,
       loggerService,
     );
-  });
-
-  group('fetchPositionFromLocation', () {
-    const location = LocationModel(city: 'city', country: 'country');
-    const position = PositionModel(latitude: 0.0, longitude: 0.0);
-
-    test('Should return a PositionModel', () async {
-      // arrange
-      when(networkService.isConnected).thenReturn(true);
-      when(fetchWeatherDatasource.fetchPositionFromLocation(location))
-          .thenAnswer((_) async => position);
-
-      // act
-      final result = await repository.fetchPositionFromLocation(location);
-
-      // assert
-      expect(result, const Right(position));
-    });
-
-    test('Should return a NoConnectionFailure when there is no connection', () async {
-      // arrange
-      when(networkService.isConnected).thenReturn(false);
-
-      // act
-      final result = await repository.fetchPositionFromLocation(location);
-
-      // assert
-      expect(result, const Left(NoConnectionFailure()));
-    });
-
-    test('Should return a FetchPositionFromLocationFailure when an error occurs', () async {
-      // arrange
-      when(networkService.isConnected).thenReturn(true);
-      when(fetchWeatherDatasource.fetchPositionFromLocation(location))
-          .thenThrow(const FetchPositionFromLocationException());
-
-      // act
-      final result = await repository.fetchPositionFromLocation(location);
-
-      // assert
-      expect(result, Left(FetchPositionFromLocationFailure(location)));
-    });
   });
 
   group('fetchWeather', () {

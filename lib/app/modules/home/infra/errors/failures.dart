@@ -8,7 +8,7 @@ class FetchPositionFromLocationFailure extends Failure {
   FetchPositionFromLocationFailure([
     this.location,
   ]) : super(
-            'Error fetching position from location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+            'Error fetching position from location${location != null ? ' - ${location.city}, ${location.country}.' : '.'}');
 
   @override
   List<Object> get props => [message];
@@ -20,7 +20,7 @@ class FetchWeatherFailure extends Failure {
   FetchWeatherFailure([
     this.position,
   ]) : super(
-            'Error fetching weather from position${position != null ? ' - city: ${position.latitude}, country: ${position.longitude}' : '!'}');
+            'Error fetching weather from position${position != null ? ' - lat(${position.latitude}) long(${position.longitude}).' : '.'}');
 
   @override
   List<Object> get props => [message];
@@ -40,7 +40,7 @@ class FetchFavoriteLocationDetailedFailure extends Failure {
 
   FetchFavoriteLocationDetailedFailure({this.location})
       : super(
-            'Error fetching favorite location detailed${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+            'Error fetching favorite location detailed${location != null ? ' - ${location.city}, ${location.country}.' : '.'}');
 
   @override
   List<Object> get props => [message];
@@ -51,7 +51,7 @@ class AddFavoriteLocationFailure extends Failure {
 
   AddFavoriteLocationFailure({this.location})
       : super(
-            'Error adding favorite location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+            'Error adding favorite location${location != null ? ' - ${location.city}, ${location.country}.' : '.'}');
 
   @override
   List<Object> get props => [message];
@@ -62,7 +62,7 @@ class RemoveFavoriteLocationFailure extends Failure {
 
   RemoveFavoriteLocationFailure({this.location})
       : super(
-            'Error removing favorite location${location != null ? ' - city: ${location.city}, country: ${location.country}' : '!'}');
+            'Error removing favorite location${location != null ? ' - ${location.city}, ${location.country}.' : '.'}');
 
   @override
   List<Object> get props => [message];

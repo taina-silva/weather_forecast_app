@@ -1,9 +1,9 @@
 // ignore_for_file: unused_import
 import 'package:weather_forecast_app/app/app_module.dart';
 import 'package:weather_forecast_app/app/app_widget.dart';
-import 'package:weather_forecast_app/app/core/components/structure/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:weather_forecast_app/app/core/components/buttons/custom_button.dart';
+import 'package:weather_forecast_app/app/core/components/structure/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/structure/temporary_widget.dart';
 import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 
 class LocationTextField<T> extends StatefulWidget {
@@ -29,41 +30,45 @@ class _LocationTextFieldState<T> extends State<LocationTextField<T>> {
   @override
   initState() {
     super.initState();
-
-    if (widget.selectedLocation != null) {
-      final location = widget.locationAsStr(widget.selectedLocation as T);
-      widget.getLocations(location);
-      _controller.text = location;
-    }
+    widget.getLocations(null);
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _controller,
-      onChanged: (value) => widget.getLocations(value),
-      style: const TextStyle(color: AppColors.neutral0),
-      enabled: !widget.disabled,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        labelStyle: const TextStyle(color: AppColors.neutral0),
-        hintText: 'Type to search',
-        hintStyle: const TextStyle(color: AppColors.neutral200),
-        border: InputBorder.none,
-        suffixIcon: widget.disabled
-            ? null
-            : GestureDetector(
-                onTap: () {
-                  _controller.clear();
-                  widget.onClear();
-                  widget.getLocations(null);
-                },
-                child: const Icon(
-                  Icons.clear,
-                  color: AppColors.neutral0,
-                ),
-              ),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          text: widget.labelText + (_controller.text.isNotEmpty ? ': ${_controller.text}' : ''),
+          textType: TextType.small,
+          color: AppColors.neutral0,
+        ),
+        TextFormField(
+          controller: _controller,
+          onChanged: (value) => widget.getLocations(value),
+          style: const TextStyle(color: AppColors.neutral0),
+          enabled: !widget.disabled,
+          decoration: InputDecoration(
+            hintText: 'Type to search',
+            hintStyle: const TextStyle(color: AppColors.neutral200),
+            border: InputBorder.none,
+            suffixIcon: widget.disabled
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      _controller.clear();
+                      widget.onClear();
+                      widget.getLocations(null);
+                    },
+                    child: const Icon(
+                      Icons.clear,
+                      color: AppColors.neutral0,
+                    ),
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }

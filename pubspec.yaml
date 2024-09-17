@@ -25,6 +25,9 @@ scripts:
     $before: dart pub global run full_coverage
     $script: fvm flutter test --coverage
 
+  build-dev-apk:
+    $script: fvm flutter build apk --debug --dart-define-from-file=.env/dev.json
+
 dependencies:
   flutter:
     sdk: flutter

@@ -11,10 +11,8 @@ import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:weather_forecast_app/app/core/errors/failures.dart' as _i5;
 import 'package:weather_forecast_app/app/core/models/location/location_model.dart'
     as _i7;
-import 'package:weather_forecast_app/app/core/models/position/position_model.dart'
-    as _i6;
 import 'package:weather_forecast_app/app/core/models/weather_forecast/weather_forecast_model.dart'
-    as _i9;
+    as _i6;
 import 'package:weather_forecast_app/app/modules/home/infra/repositories/fetch_weather_repository.dart'
     as _i2;
 
@@ -41,26 +39,7 @@ class MockFetchWeatherRepository extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, _i6.PositionModel>>
-      fetchPositionFromLocation(_i7.LocationModel? location) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #fetchPositionFromLocation,
-              [location],
-            ),
-            returnValue:
-                _i3.Future<_i4.Either<_i5.Failure, _i6.PositionModel>>.value(
-                    _i8.dummyValue<_i4.Either<_i5.Failure, _i6.PositionModel>>(
-              this,
-              Invocation.method(
-                #fetchPositionFromLocation,
-                [location],
-              ),
-            )),
-          ) as _i3.Future<_i4.Either<_i5.Failure, _i6.PositionModel>>);
-
-  @override
-  _i3.Future<_i4.Either<_i5.Failure, _i9.WeatherForecastModel>> fetchWeather(
+  _i3.Future<_i4.Either<_i5.Failure, _i6.WeatherForecastModel>> fetchWeather(
           _i7.LocationModel? location) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -68,13 +47,13 @@ class MockFetchWeatherRepository extends _i1.Mock
           [location],
         ),
         returnValue: _i3
-            .Future<_i4.Either<_i5.Failure, _i9.WeatherForecastModel>>.value(
-            _i8.dummyValue<_i4.Either<_i5.Failure, _i9.WeatherForecastModel>>(
+            .Future<_i4.Either<_i5.Failure, _i6.WeatherForecastModel>>.value(
+            _i8.dummyValue<_i4.Either<_i5.Failure, _i6.WeatherForecastModel>>(
           this,
           Invocation.method(
             #fetchWeather,
             [location],
           ),
         )),
-      ) as _i3.Future<_i4.Either<_i5.Failure, _i9.WeatherForecastModel>>);
+      ) as _i3.Future<_i4.Either<_i5.Failure, _i6.WeatherForecastModel>>);
 }

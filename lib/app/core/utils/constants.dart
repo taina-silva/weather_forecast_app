@@ -13,7 +13,7 @@ abstract class Layout {
   static const double borderRadiusMedium = 16;
   static const double borderRadiusLarge = 100;
 
-  static const double appBarSize = 72;
+  static const double appBarSize = 88;
   static const double appBarTrailingHeight = 52;
   static const double appBarLeadingAndTrailingWidth = 40;
 

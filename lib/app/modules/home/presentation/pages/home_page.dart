@@ -7,7 +7,6 @@ import 'package:tuple/tuple.dart';
 import 'package:weather_forecast_app/app/core/components/structure/custom_app_bar.dart';
 import 'package:weather_forecast_app/app/core/components/structure/custom_scaffold.dart';
 import 'package:weather_forecast_app/app/core/components/structure/temporary_widget.dart';
-import 'package:weather_forecast_app/app/core/components/text/custom_text.dart';
 import 'package:weather_forecast_app/app/core/components/toasts/toasts.dart';
 import 'package:weather_forecast_app/app/core/models/location/location_model.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
@@ -52,6 +51,8 @@ class _HomePageState extends State<HomePage> {
 
     reactions = [
       reaction((_) => locationStore.selectedCity, (city) {
+        setState(() => index = 0);
+
         if (city == null) {
           weatherStore.state = GetWeatherInitialState();
         } else {
@@ -142,11 +143,9 @@ class _HomePageState extends State<HomePage> {
                 subtitle: 'Please check your internet connection.',
                 content: FavoriteWidget(hideSaveAsFavorite: true),
               ),
-              error: (message) => Center(
-                child: CustomText(
-                  text: message,
-                  textType: TextType.medium,
-                ),
+              error: (message) => TemporaryWidget(
+                title: 'Oops!',
+                subtitle: message,
               ),
               successWithData: (result) {
                 final item = result.daily[index];

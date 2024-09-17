@@ -2,7 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:weather_forecast_app/app/core/theme/app_colors.dart';
 import 'package:weather_forecast_app/app/core/utils/constants.dart';
 
-enum TextType { nano, small, medium, large }
+enum TextType {
+  nano,
+  small,
+  medium,
+  large;
+
+  double get textScaleFactor {
+    switch (this) {
+      case TextType.nano:
+        return 1;
+      case TextType.small:
+        return 1.2;
+      case TextType.medium:
+        return 1.5;
+      case TextType.large:
+        return 2;
+    }
+  }
+
+  int get maxLines {
+    switch (this) {
+      case TextType.nano:
+        return 1;
+      case TextType.small:
+        return 2;
+      case TextType.medium:
+        return 3;
+      case TextType.large:
+        return 4;
+    }
+  }
+}
 
 class CustomText extends StatelessWidget {
   final String text;
@@ -30,36 +61,10 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double getTextScaleFactor() {
-      switch (textType) {
-        case TextType.nano:
-          return 1;
-        case TextType.small:
-          return 1.2;
-        case TextType.medium:
-          return 1.5;
-        case TextType.large:
-          return 2;
-      }
-    }
-
-    int getMaxLines() {
-      switch (textType) {
-        case TextType.nano:
-          return 1;
-        case TextType.small:
-          return 2;
-        case TextType.medium:
-          return 3;
-        case TextType.large:
-          return 4;
-      }
-    }
-
     return Text(
       text,
-      textScaler: TextScaler.linear(getTextScaleFactor()),
-      maxLines: maxLines ?? getMaxLines(),
+      textScaler: TextScaler.linear(textType.textScaleFactor),
+      maxLines: maxLines ?? textType.maxLines,
       textAlign: textAlign,
       style: TextStyle(
         fontWeight: fWeight,
